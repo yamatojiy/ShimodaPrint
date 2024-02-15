@@ -1,0 +1,551 @@
+*■****************************************************************************
+*■****　　　　　　　　　　　　　　　　　　　　工程入力用　　　EX-Master  2024/02/14 更新
+*■**** 工程管理用ヘッダーです。
+*■**** 日程調整に必要な変数を用意します。
+*■****************************************************************************
+*■*::::::::::▼ 工程管理表　出力変数　ここから　▼:::::::::::::::::::::::::::::::::::::
+    var 数値 {　&ok, &NumCount = 1,&PrintMode,&PEndNum =  0}
+    var 文字列{ &DataPath, &DataPathPrintCMX, &SystemPath,&FinishgProcessPath, &PrintCMX}
+    var 文字列{ &FinishCMX, &FinishScheduleCMX,&PlateCMX }
+    var 文字列{ &DataPathFinishCMX , &DataFinishScheduleCMX , &DataPlateCMX }
+    var 文字列{ &DataPathFPP01, &DataPathFPP02, &DataPathFPP03}
+    
+    /*▼仕上用変数　*/
+    var 数値  { &仕上完了印刷Type = 0 }
+    var 数値  { &tomorrowFlag = 0 }
+    var 数値  { &blankCount = 0 }
+    var 数値  { &工程tbxNum　= 0 }
+    
+    /*▼ここから変数定義　*/
+    /*▼システムパス　*/
+    &DataPath = #データパス名
+    &SystemPath = "system\cmx\"
+    &FinishgProcessPath = "system\tbx\01仕上げ工程作業関連\"
+
+    /*▼calendarのパス　*/
+    var 文字列{ &OpPath         = &DataPath + "..\Option\"}
+    var 文字列{ &OpFunClPath    = &OpPath + "function\calendar\INF_DatePicker.wfx"}
+
+    /*▼モーダルフォーム */
+    var 文字列{ &modalPath = "X:\Option\function\汎用\" }
+    var 文字列{ &作業機選択modal = &modalPath + "09_作業項目設定.wfx" }
+    var 文字列{ &項目内容modal =  &modalPath + "10_項目内容設定.wfx" }
+    var 文字列{ &項目用紙サイズmodal =  &modalPath + "11_印刷用紙サイズ設定.wfx" }
+    var 文字列{ &項目色modal =  &modalPath + "12_印刷用色設定.wfx" }
+    var 文字列{ &タイムmodal = &modalPath + "02_2_タイム.wfx" }
+    var 文字列{ &ReturnS }
+    var 数値  { &ReturnN }
+
+    /*▼結合が必要なファイル名称 */
+    &PrintCMX　　　　　　　= "【印刷】印刷予定表スケジュール.CMX"
+    &FinishCMX　　　　　　　= "【仕上】◆仕上結合ファイル更新.CMX"
+    &FinishScheduleCMX　　 = "【仕上】製品予定表スケジュール.CMX"
+    &PlateCMX 　           = "【製販】製販予定表スケジュール.CMX"
+
+    /*ファイル所在のアドレス*/
+    　&DataPathPrintCMX          = #データパス名 + &SystemPath + &PrintCMX
+    　&DataPathFinishCMX         = #データパス名 + &SystemPath + &FinishCMX
+    　&DataFinishScheduleCMX     = #データパス名 + &SystemPath + &FinishScheduleCMX
+    　&DataPlateCMX              = #データパス名 + &SystemPath + &PlateCMX
+
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    /*▼サイドメニュー関連の変数 */
+    var 文字列{ &MenuIssueCmx = &DataPath + "system\07_IssueBox\SideFromUp.cmx" }
+    var 文字列{ &MenuPrintCmx = &DataPath + "06_各機械印刷予定\04各機予定出力.cmx" }
+    var 文字列{ &MenuFinish01Cmx = &DataPath + "system\tbx\03仕上げ未完了作業\未完了_.cmx" }
+    var 文字列{ &MenuMindCmx =  &DataPath + "system\tbx\05マインド作業進捗\マインド作業情報.cmx" }
+    var 文字列{ &MenuOutsorCmx = &DataPath + "05_外注案件リスト作成\外注指示抽出.cmx" }
+    var 文字列{ &MenuInterimReportCmx = &DataPath + "system\tbx\06仕上昼礼用スケジュール\06仕上昼礼.cmx" }
+
+    
+    /*▼仕上工程のファイルPath*/
+    　　　&DataPathFPP01  = #データパス名 + &FinishgProcessPath + "仕上工程情報.tbx"
+    　　　&DataPathFPP02  = #データパス名 + &FinishgProcessPath + "□仕上工程テーブル.TBX"
+    　　　&DataPathFPP03  = #データパス名 + &FinishgProcessPath + "□仕上工程テーブル.TBX"
+
+    /*▼各ファイル場所　*/
+    Var　文字列　{ &WorksPathI       = #データパス名 +"system\tbx\02予定表関連\" + "①行程管理.tbx" }
+    Var　文字列　{ &WorksPathICov  = #データパス名 +"system\tbx\02予定表関連\" + "①行程管理NO重複.tbx" }
+    Var　文字列　{ &WorksPathII      = #データパス名 +"system\tbx\02予定表関連\" + "②仕上作業.tbx" }
+    Var　文字列　{ &WorksSumPath  = #データパス名 +"system\tbx\02予定表関連\" + "製品予定表_改.vix" }
+    Var　文字列　{ &WorkOutOfCSV  = #データパス名 +"02仕上結合スケジュール\予定表_改.csv" }
+    Var　文字列　{ &WorksPrintTbxPath  = #データパス名 +"system\tbx\02予定表関連\" + "作業印刷表.tbx" }
+    Var　文字列　{ &WorksPrintTbxV2Path  = #データパス名 +"system\tbx\02予定表関連\" + "印刷予定v2.tbx" }
+
+    /*▼やっつけ　*/
+    var 文字列 { &kexpath = #一括パス名 } /*←ProcessControl.kex　*/
+
+    /*▼テーブルパス　*/
+    var 文字列{　&STbxPath       = &kexpath + "..\tbx\"}
+    var 文字列{　&prsTbxCopy     = &STbxPath + "01_kotei_MASTER(COPY).tbx"}
+    var 文字列{　&prsTbxCopyChk  = &STbxPath + "02_工程管理更新チェック.tbx"}
+    var 文字列{　&prsTbxCopyConv = &STbxPath + "03_工程管理ID重複NG.tbx"}
+
+    /*▼一括処理　*/
+    var 文字列{　&SCmxPath          = &kexpath + "..\cmx\"}
+    var 文字列{　&FromSwitchP       = &SCmxPath + "03_【工程】メニュー分岐.cmx"}
+
+
+    var 文字列{　&SysPath        = &kexpath + "..\"}
+    var 文字列{　&SIniPath       = &kexpath + "..\system\ini\"}
+
+    /*▼パーソンズのパス　*/
+    var 文字列{　&parsonPath        = &kexpath + "..\testpath\"}
+    var 文字列{　&parsonPrintPath   = &parsonPath + "印刷予定.tbx"}
+
+
+    /*▼フォームのパス　*/
+    var 文字列{　&processFrom       = &SysPath + "..\工程管理.wfx"}
+    var 文字列{　&processTbx       = &SysPath + "..\kotei_MASTER.TBX"}
+
+
+    var 文字列{　&ProcessEndFrom  = &SysPath + "..\工程完了\工程完了.wfx"}
+    var 文字列{　&ProcessEndTbx  = &SysPath + "..\工程完了\kotei_kanryou.TBX"}
+
+    var 文字列{　&paperChkFrom      = &SysPath + "..\【管理】用紙確認.wfx"}
+
+    /*▼メニュー切り替え用　*/
+    var 数値 { &menuWfx }
+    var 数値  { &ActiveID = 0 , &SubActiveID = 0}
+    
+    /*▼印刷スケジュールサブフォーム表ID */
+    var 数値  { &TimeType = 21 }
+    /*▼ファイルアドレス_この変数は工程管理に置きます。 */
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    *■*:　本番用
+    *var 文字列{ &工程tbx = "X:\工程管理\kotei_MASTER.TBX"}　/*←本番 */
+
+    var 文字列{ &dataPath = "X:\工程管理\06_各機械印刷予定\20231222_new\tbx\" }
+
+    var 文字列{ &工程tbx = "X:\工程管理\kotei_MASTER.TBX"}　/*←本番 */
+    var 文字列{ &作業用tbx = &dataPath + "koteiCopy.tbx" }
+    var 文字列{ &用紙tbx = "X:\用紙管理\system\tbx\新入庫情報管理.tbx" }
+    /*▼書き出しファイル */
+    var 文字列{ &アウトtxt = &dataPath + "outSchedule2.txt" }
+    /*▼未定義テーブル */
+    var 文字列{ &未定義tbx = &dataPath + "00_defnition.tbx" }
+
+    /*▼各書き出し表 */
+    var 文字列{ &印刷機[5] = {}}
+        &印刷機[1] = "菊全機"
+        &印刷機[2] = "４色機"
+        &印刷機[3] = "単色機"
+        &印刷機[4] = "オンデマンド"
+        
+    var 文字列{ &各書き出し表tbx[6] = {} }
+        &各書き出し表tbx[1] = &dataPath + "02_" + &印刷機[1] + "_definition.tbx"
+        &各書き出し表tbx[2] = &dataPath + "03_" + &印刷機[2] + "_definition.tbx"
+        &各書き出し表tbx[3] = &dataPath + "04_" + &印刷機[3] + "_definition.tbx"
+        &各書き出し表tbx[4] = &dataPath + "05_" + &印刷機[4] + "_definition.tbx"
+        &各書き出し表tbx[5] = &dataPath + "01_All_defnition.tbx"
+        &各書き出し表tbx[6] = &dataPath + "00_未定義_definition.tbx"
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+*■*::::::::::▲ 工程管理表　出力変数　ここまで　▲:::::::::::::::::::::::::::::::::::::
+/*▼環境用追加変数　*/
+
+    /*▼Optionのアドレス　*/
+        var 文字列 { &DataPath      = #データパス名 }
+        var 文字列 { &OpPath         = &DataPath + "..\..\Option\"}
+        var 文字列 { &MsPath         = &DataPath + "..\..\MASTA\"}
+    
+    /*▼mastaAddress　*/
+        var 文字列 { &DataPath         = #データパス名 }
+        var 文字列 { &sMasterTbx      = &DataPath + "..\作業伝票\Smasta.tbx" }
+        var 文字列 { &subMasterTbx  = &DataPath + "..\submaster.TBX" }
+        var 文字列 { &工程完了Tbx     = &DataPath + "工程完了\kotei_kanryou.TBX" }
+
+    /*▼カレンダーと電卓のパス　*/
+        var 文字列{ &OpFunClPath    = &OpPath + "function\calendar\INF_DatePicker.wfx"}
+        var 文字列{ &OpFunClPath2   = &OpPath   + "function\calculator\INF_電卓.wfx"}
+
+    /*▼一括処理
+        var 文字列{　&SCmxPath      = &DataPath + "system\cmx\"}
+        var 文字列 { &sMasta情報取得cmx = &SCmxPath +"工程010_subMasta反映処理.cmx" }
+        var 文字列 { &サブと工程更新cmx = &SCmxPath +"工程020_subMasta更新.cmx" }
+        var 文字列 { &サブのみ反映cmx = &SCmxPath +"工程030_subMastaのみ反映.cmx" }
+
+    /*▼テーブル処理　*/
+        var 文字列{　&STbxPath   = &DataPath + "system\tbx\"}
+   
+    /*▼iniファイル系　*/
+        var 文字列  {　&SIniPath   = &DataPath + "system\ini\" }
+
+    /*▼07ﾌｫｰﾑアドレス管理　*/
+        var 文字列  {　&Form07Path   = &DataPath + "07仕上予定フォーム\" }
+        var 文字列  {　&MainForm07Path   = &Form07Path + "07_shiage_yotei_from.wfx" }
+
+
+    
+
+    /*▼Smasta▲利用者コード　*/
+        var 文字列  {　&sMastaCode     = "kanri" }
+        var 文字列  {　&subMastaCode   = "imput" }
+        var 文字列  {　&工程完了Code  = "aaaa" }
+        var 文字列{ &User名 }
+
+*■*-フォーム用変数
+
+    /*▼＿＿＿汎用変数＿＿＿何かと汎用的に使う変数たちです▼　*/
+        var 数値 { &i , &v , &CHK }
+        var 数値 { &伝票NoN , &仕上空欄アリ }
+
+    /*▼Mstar変数を用意　*/
+        var 数値  { &伝票NoN　, &得意先CDN , &部数N , &確定部数N , &区分N , &営業N , &所N }
+        var 日時  { &入力日D , &日付D , &仕上日D , &確定仕上日D , &売上日D }
+        var 文字列 { &納品書NoS , &担当営業S , &営業所S , &得意先S , &品名S , &サイズS , &頁数S , &確定頁数S , &備考S , &前回伝票S }
+        var 文字列 { &区分名[4]　,&仕上納期加工S }
+
+        &区分名[1] = "枚葉"
+        &区分名[2] = "冊子"
+        &区分名[3] = "新聞"
+        &区分名[4] = "複写"
+
+    /*▼時間帯用変数　*/
+        var 文字列 {  &文字列TEST = "R 3/11/10 17: 0" , &文字列TESTA }
+        var 数値 { &HourNum , &TimeCase[4] , &Ans }
+
+        &TimeCase[1] = 10   /*←時間テーブル　*/
+        &TimeCase[2] = 12
+        &TimeCase[3] = 15
+        &TimeCase[4] = 18
+    
+    var 文字列{ &IssueBoxPath = "X:\工程管理\system\07_IssueBox\" }
+    var 文字列{ &IssueBoxTbx = &IssueBoxPath + "問題書き残し.tbx" }
+    var 文字列{ &IssueBoxWfx = &IssueBoxPath + "問題置き場.wfx" }
+    var 文字列 { &問題色　= "背景モード'指定色',背景色'RGB(242,226,5)'" }
+    
+
+    /*▼メニュー検索文字 */
+        var 文字列{ &得意先検索ワード = "" , &品名検索ワード = "" , &備考検索ワード = "" }
+        var 数値  { &伝票ナンバー = "" }
+
+        var 文字列 { &カラー[6]　= {""} }
+            &カラー[1] = "背景モード'指定色',背景色'RGB(207,222,135)'"
+            &カラー[2] = "背景モード'指定色',背景色'RGB(222,222,135)'"
+            &カラー[3] = "背景モード'指定色',背景色'RGB(222,207,135)'"
+            &カラー[4] = "背景モード'指定色',背景色'RGB(222,193,135)'"
+            &カラー[5] = "背景モード'指定色',背景色'RGB(222,179,135)'"
+            &カラー[6] = "背景モード'指定色',背景色'RGB(222,150,135)'"
+
+    /*▼ログ用変数　*/
+    var 文字列{ &OpenCounttbx = "X:\工程管理\system\tbx\OpenCount.tbx" }
+    var 文字列 { &User名 , &LogText = "X:\Option\利用者log\工程管理logV2.txt" }
+    var 数値  { &OpenCount }
+
+    var 数値 { &medatu = 0 }
+    var　数値｛　&R2 = 0 , &G2 = 0 , &B2 = 0 }
+
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    *■*::: オブジェクト操作用
+    var 数値  { &IDnum }
+    var 文字列  { &Name }
+    var 文字列{ &社員情報tbx = "X:\Option\tbx\005_シモダ社員情報.tbx" }
+
+
+*■:::::::::::::::::::::::　　ここからは手続きを記載します  :::::::::::::::::::::::::::::
+    名札　メイン
+
+
+    *
+
+*■*----------------------------------------------------------
+*■*-----
+*■*----------------------------------------------------------
+手続き定義開始 凸版用紙決算書備考記載（）
+    var 文字列{ &N備考s }
+    &N備考s = [備考]　 + "\◆用紙決算書必須!　◆出荷承認書必須!"
+    行訂正 終了状態 = &CHK , [備考] = &N備考s
+    メソッド呼び出し　@ﾌｫｰﾑ.変数変更( )
+手続き定義終了
+
+*■*----------------------------------------------------------
+*■*-----   メニュー検索情報
+*■*----------------------------------------------------------
+手続き定義開始 伝票ナンバー検索（）
+
+    if ( &伝票ナンバー <>"")
+
+        絞り込み [伝票ＮＯ] { &伝票ナンバー } , 終了状態 = &CHK
+        if (#総件数 = 0 )
+            確認 "検索したナンバーはありませんでした。"
+            解除 1
+        end
+    else
+        確認　"ナンバーが空欄での絞り込みはできません。"
+    end
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+手続き定義開始 得意先ワード検索（）
+
+    if ( &得意先検索ワード <>"")
+
+        絞り込み [得意先] { * &得意先検索ワード * } , 終了状態 = &CHK
+        if (#総件数 = 0 )
+            確認 "検索したワードは得意先にありませんでした。"
+            解除 1
+        end
+    else
+        確認　"ワードが空欄での絞り込みはできません。"
+    end
+
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+手続き定義開始 品名ワード検索（）
+
+    if ( &品名検索ワード <>"")
+
+        絞り込み [品名] { * &品名検索ワード * } , 終了状態 = &CHK
+        if (#総件数 = 0 )
+            確認 "検索したワードは品名にありませんでした。"
+            解除 1
+        end
+    else
+        確認　"ワードが空欄での絞り込みはできません。"
+    end
+
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+手続き定義開始 備考ワード検索（）
+
+    if ( &備考検索ワード <>"")
+
+        絞り込み [備考] { * &備考検索ワード * } , 終了状態 = &CHK
+        if (#総件数 = 0 )
+            確認 "検索したワードは備考にありませんでした。"
+            解除 1
+        end
+    else
+        確認　"ワードが空欄での絞り込みはできません。"
+    end
+
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+手続き定義開始 検索リセット（）
+    &得意先検索ワード = ""  &品名検索ワード = ""  &備考検索ワード = "" &伝票ナンバー = ""
+手続き定義終了
+*■*----------------------------------------------------------
+*■*-----   遊んでみよう。タイマーさん。
+*■*----------------------------------------------------------
+手続き定義開始　ﾌｫｰﾑ::タイマー1()
+
+    メソッド呼び出し　@ﾌｫｰﾑ.変数変更( )
+
+    if (&medatu = 1 )
+        
+        &R2 =　#乱数（ ＃mod(#ミリ秒( #時間値( #TickCount, 5 ) ),255)　）
+        &G2 = #乱数（ ＃mod(#ミリ秒( #時間値( #TickCount, 5 ) ),255)　）
+        &B2 = #乱数（ ＃mod(#ミリ秒( #時間値( #TickCount, 5 ) ),255)　）
+
+        &問題色　= "背景モード'指定色',背景色'RGB(" + #文字列( &R2 ) +","+ #文字列( &G2 ) +","+ #文字列( &B2 ) +")'"
+
+    end
+
+
+手続き定義終了
+手続き定義開始 目立つ君（）
+
+    if (&medatu = 0)
+    &medatu = 1
+    else
+    &medatu = 0
+    end
+
+手続き定義終了
+*■*----------------------------------------------------------------------------
+*■*----------　　　　　   　フォーム動作処理
+*■*----------------------------------------------------------------------------
+*■*::::::::::　起動時　:::::::::::::::::::::::::::::::::::::
+手続き定義開始　ﾌｫｰﾑ::フォーム開始(長整数　&表番号)
+
+    &User名 = #ユーザ名
+
+    &工程tbxNum = #IS表
+
+手続き定義終了
+手続き定義開始 カウントセットIN（）
+
+    var 数値  { &oo = 0 }
+    var 文字列{ &LEFT = "" }
+
+        /*▼カウントデータを読みとる　*/
+    表　&OpenCounttbx  , 表番号 = 19 , モード = 専有
+
+        &OpenCount = [Count]
+        &OpenCount = &OpenCount + 1
+
+        /*▼カウントの数だけTABをセットする　*/    
+        繰り返し（ &OpenCount > &oo ）
+
+            &LEFT = &LEFT + " >"
+            &oo = &oo + 1
+        繰り返し終了 
+
+        /*▼カウントの数だけTABをセットする　*/    
+        印字開始　&LogText , 追加 , 終了状態 = &CHK
+
+            印字 "OPEN","|", &LEFT ,"|", #日時文字列(#日時値 , 9 , 4 , 2 ) ,"|" ,&User名
+        印字終了
+
+            
+        行訂正　[Count] = &OpenCount
+
+    終了　表　19
+
+手続き定義終了
+*■*::::::::::　終了時　:::::::::::::::::::::::::::::::::::::
+手続き定義開始　ﾌｫｰﾑ::フォーム終了()
+
+
+
+手続き定義終了
+手続き定義開始 カウントセットOUT（）
+
+    var 数値  { &oo = 0 }
+    var 文字列{ &LEFT = "" }
+    &User名 = #ユーザ名
+
+    /*▼カウントデータを読みとる　*/
+    表　&OpenCounttbx  , 表番号 = 18 , モード = 専有
+
+        &OpenCount = [Count]
+        &OpenCount = &OpenCount - 1
+    
+        /*▼カウントの数だけTABをセットする　*/    
+        繰り返し（ &OpenCount > &oo ）
+
+            &LEFT = &LEFT + " >"
+            &oo = &oo + 1
+        繰り返し終了 
+
+        /*▼カウントの数だけTABをセットする　*/    
+        印字開始　&LogText , 追加 , 終了状態 = &CHK
+
+            印字 "CLOS","|", &LEFT ,"|", #日時文字列(#日時値 , 9 , 4 , 2 ) ,"|" ,&User名
+        印字終了
+
+        行訂正　[Count] = &OpenCount
+
+    終了　表　18
+
+手続き定義終了
+*■*----------------------------------------------------------------------------
+*■*----------　　　　　   　関数宣言
+*■*----------------------------------------------------------------------------
+*■*::::::::::　被保険者番号からバーコード呼び出し　:::::::::::::::::::::::::::::::::::::
+    手続き定義開始　アドレスチェック()
+
+    確認　&sMasterTbx
+    確認　&subMasterTbx
+    確認　&工程完了Tbx
+
+    手続き定義終了
+    手続き定義開始　テストB()
+
+        &文字列TESTA = #右側文字列（ &文字列TEST , 5 ）
+        &文字列TEST　 = #右側文字列（ #文字列反転（　&文字列TESTA　）, 2 )
+        &文字列TESTA = #文字列反転（　&文字列TEST　）
+
+        確認 &文字列TESTA
+
+        &HourNum = #数値（　&文字列TESTA　）
+
+        ケース開始
+            ケース（&TimeCase[1] => &HourNum ）
+                &Ans = &TimeCase[1]
+
+            ケース（&TimeCase[2] => &HourNum　.and &HourNum > &TimeCase[1] ）
+                &Ans = &TimeCase[2]
+            
+            ケース（&TimeCase[3] => &HourNum　.and &HourNum > &TimeCase[2] ）
+                &Ans = &TimeCase[3]
+            
+            ケース（ &HourNum > &TimeCase[3] ）
+                &Ans = &TimeCase[4]
+
+        ケース終了
+
+        &文字列TEST = "判定結果は　yyyy/mm/dd "+ #文字列(　&Ans　)+":00　になりました。"
+
+        確認　&文字列TEST
+        
+    手続き定義終了
+*■*----------------------------------------------------------------------------
+*■*----------　　　　　   　関数宣言
+*■*----------------------------------------------------------------------------
+*■*::::::::::　被保険者番号からバーコード呼び出し　:::::::::::::::::::::::::::::::::::::
+    手続き定義開始　tesuto()
+
+        var 文字列 { &TESTA , &TESTB }
+
+        &TESTA = #日時文字列（[仕上日] , 9 , 2 , 2 ）
+        確認 &TESTA
+        &TESTB = #文字列反転（　&TESTA　）
+        確認 &TESTB
+        
+        &TESTA = #右側文字列（ &TESTB , 2 ）
+        確認 &TESTA
+
+        &TESTB = #文字列反転（　&TESTA　）
+        確認 &TESTB
+
+    手続き定義終了
+*■*----------------------------------------------------------
+*■*-----
+*■*----------------------------------------------------------
+手続き定義開始　1_伝票No::マウス移動(長整数　&マウス位置[2]，長整数　&明細番号，長整数　&フラグ)
+
+    &ActiveID =  [伝票ＮＯ]
+
+手続き定義終了
+*■***********************************************************
+*■*** コード情報を入力した時の動作情報法です。
+*■***　CDオブジェクトは固定で
+*■***　次項目のオブジェクトはオブジェクト名と項目名を合わせる事で、
+*■*** 全て以下のコードで処理ができます。
+*■***********************************************************
+手続き定義開始　CD::フォーカス取得(文字列　&喪失オブジェクト名)
+
+    表 &社員情報tbx  , 表番号 = 26 , モード = 共有更新
+    
+        絞り込み [退社] { #未定義 } , 終了状態 = &CHK       
+
+手続き定義終了
+*■*----------------------------------------------------------
+*■*----- 入力後、グローバル変数に処理を入れる
+*■*----------------------------------------------------------
+手続き定義開始　CD::入力後(参照　文字列　&編集文字列，長整数　&モード，参照　長整数　&入力継続)
+
+    &IDnum = #数値 ( &編集文字列 )
+
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    *■*:　空欄じゃなければ処理します
+    if (　&IDnum　)
+        編集表 26
+
+        検索 [社員ＣＤ] { &IDnum } , 終了状態 = &CHK 
+            &Name = [略称]
+       
+        編集表 &工程tbxNum
+
+    else
+
+        &IDnum = ""
+        &Name = ""
+
+    end
+
+手続き定義終了
+*■*----------------------------------------------------------
+*■*-----　最後に次工程に書き込み処理を行う
+*■*----------------------------------------------------------
+手続き定義開始　CD::フォーカス喪失(文字列　&取得オブジェクト名 )
+
+    *確認 &取得オブジェクト名
+    *確認 &Name
+
+    コマンド　"行訂正 終了状態 = &CHK , ["+　&取得オブジェクト名　+"] = &Name" 
+
+手続き定義終了
