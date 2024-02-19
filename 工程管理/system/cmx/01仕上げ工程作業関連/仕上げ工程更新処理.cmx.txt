@@ -1,0 +1,345 @@
+*■*****************************************************************************
+*■*****************　　　　　   　仕上げ工程をタックシール化する一括処理
+*■*****　仕上用テーブルの仕上工程を縦列に変換し、タックシール印刷用に出力する
+*■*****************************************************************************
+
+/*▼変数定義　*/
+var 数値    { &i , &v , &s , &z }
+var 数値    { &SlipVer ,  &CountVer , &NumCount = 1 , &ok , &EmptyCount , &MaxEnmpty , &EmptyAddress , &NumCountII , &SendingCount = 0 }
+var 文字列  { &ClassVer,&ProductNameVer,&CostomerVer,&DeliveryDataVer,&RemarksVer, &PrintMachine ,&weekPattern ,&printON ,&PageNum , &SizeNum}
+var 日時    { &DeliveryDayVer,&PrintingDayVer}
+var 文字列  { &FProcessVer[31]={""},&FsupplyTime[16] ={""},&FsupplyName[16] ={""}}
+var 日時    { &FsupplyDay[16] ={""}}
+var 数値    { &ColorIndex = 0}
+
+/*▼パスに関する定義（cmxを軸にフォルダ構成）　*/
+var 文字列{ &FP = #一括パス名 }                                 /*←起動したファイルパスを軸にする　*/
+var 文字列{ &PSetCard = &tbxPath +  "01仕上げ工程作業関連\Card化.tbx" } 　/*←tbxパス */
+var 文字列{ &PMoveTxt = &iniPath +  "move.txt" }      /*←moveパス */
+
+ /*▼プリントパターンの定義　*/
+var 文字列{ &rpxColor[10]={""}, &ticketName}
+     &ticketName = "仕上工程用チケット作成_"
+     &rpxColor[1] = "01_Sky.RPX"
+     &rpxColor[2] = "02_Red.RPX"
+     &rpxColor[3] = "03_Orange.RPX"
+     &rpxColor[4] = "04_Bule.RPX"
+     &rpxColor[5] = "05_Green.RPX"
+     &rpxColor[6] = "06_Yellow.RPX"
+     &rpxColor[7] = "07_Purple.RPX"
+     &rpxColor[8] = "00_test.RPX"
+
+*■*****************************************************************************
+*■*****************　　　　　   　処理
+*■*****************************************************************************　
+名札　PrintCode
+　　
+    if(&PrintMode = 0)　        /*←0なら全部印刷する　*/
+        手続き実行 AllBlanksPrint
+    end
+    if(&PrintMode = 1)　        /*←1なら開いているページのみ　*/
+        手続き実行　WorkRead
+　　    手続き実行　WorkWriteIn
+    end
+
+　　/*▼書き出し */
+    手続き実行　CardTBXOutPut
+    手続き実行　PrintOut
+
+終了
+*■*----------------------------------------------------------------------------------------------
+*■*-----------------------　自分の情報を変数に読み込みます　　　　　   　
+*■*----------------------------------------------------------------------------------------------
+名札　WorkRead
+
+    /*▼変数直書きだけど、修正するの面倒なのでそのまま使う　*/
+    &SlipVer　= [伝票No]
+    &PageNum = [頁数]    /*←2021/12/21追加　*/
+    &SizeNum = [サイズ]
+    &CountVer　=　[部数]
+    &ClassVer = [分類]
+    &ProductNameVer = [品名]
+    &CostomerVer = [得意先]
+    &DeliveryDayVer = [納品日]
+    &DeliveryDataVer = [納品日1]
+    &PrintingDayVer = [印刷予定1]
+    &RemarksVer =  [備考]
+    &PrintMachine = [印刷機]
+    &weekPattern = [プリントパターン] 
+    &EmptyCount = [空欄回数]               /*←空欄を設定したい数を指定指せる　*/
+
+    /*▼仕上げ情報の格納　*/
+    &FProcessVer[1]= [断裁1]
+    　  &FProcessVer[2]= [断裁2]
+    　  &FProcessVer[3]= [折パターン1]
+    &FProcessVer[4]= [台数1]
+    　  &FProcessVer[5]= [折パターン2]
+    　  &FProcessVer[6]= [台数2]
+    　  &FProcessVer[7]= [折パターン3]
+    　  &FProcessVer[8]= [台数3]
+    　  &FProcessVer[9]= [丁合パターン]
+    　  &FProcessVer[10]= [綴じパターン]
+    　  &FProcessVer[11]= [その他1]
+    　  &FProcessVer[12]= [その他2]
+    　  &FProcessVer[13]= [その他3]
+    　  &FProcessVer[14]= [その他4]
+    　  &FProcessVer[15]= [その他5]
+    　  &FProcessVer[16]= [その他6]
+    　  &FProcessVer[17]= [その他7]
+    　  &FProcessVer[18]= [その他8]
+    　  &FProcessVer[19]= [その他9]
+    　  &FProcessVer[20]= [その他10]
+    　  &FProcessVer[21]= [発送パターン]
+    　  &FProcessVer[22]= "<空欄>"
+    　  &FProcessVer[23]= "<空欄>"
+    　  &FProcessVer[24]= "<空欄>"
+    　  &FProcessVer[25]= "<空欄>"
+    　  &FProcessVer[26]= "<空欄>"
+    　  &FProcessVer[27]= "<空欄>"
+    　  &FProcessVer[28]= "<空欄>"
+    　  &FProcessVer[29]= "<空欄>"
+    　  &FProcessVer[30]= "<空欄>"
+    　  &FProcessVer[31]= "<空欄>"
+
+    /*▼分包のフォームはこちらになります　*/
+    &FsupplyDay[1] = [分包日時1] 
+    &FsupplyDay[2] = [分包日時2]
+    &FsupplyDay[3] = [分包日時3]
+    &FsupplyDay[4] = [分包日時4]
+    &FsupplyDay[5] = [分包日時5]
+    &FsupplyDay[6] = [分包日時6]
+    &FsupplyDay[7] = [分包日時7]
+    &FsupplyDay[8] = [分包日時8]
+    &FsupplyDay[9] = [分包日時9]
+    &FsupplyDay[10] = [分包日時10]
+    &FsupplyDay[11] = [分包日時11]
+    &FsupplyDay[12] = [分包日時12]
+    &FsupplyDay[13] = [分包日時13]
+    &FsupplyDay[14] = [分包日時14]
+    &FsupplyDay[15] = [分包日時15]
+    &FsupplyDay[16] = [分包日時16]
+
+    &FsupplyTime[1] = [分包時間1] 
+    &FsupplyTime[2] = [分包時間2]
+    &FsupplyTime[3] = [分包時間3]
+    &FsupplyTime[4] = [分包時間4]
+    &FsupplyTime[5] = [分包時間5]
+    &FsupplyTime[6] = [分包時間6]
+    &FsupplyTime[7] = [分包時間7]
+    &FsupplyTime[8] = [分包時間8]
+    &FsupplyTime[9] = [分包時間9]
+    &FsupplyTime[10] = [分包時間10]
+    &FsupplyTime[11] = [分包時間11]
+    &FsupplyTime[12] = [分包時間12]
+    &FsupplyTime[13] = [分包時間13]
+    &FsupplyTime[14] = [分包時間14]
+    &FsupplyTime[15] = [分包時間15]
+    &FsupplyTime[16] = [分包時間16]
+
+    &FsupplyName[1] = [分包先1] 
+    &FsupplyName[2] = [分包先2]
+    &FsupplyName[3] = [分包先3]
+    &FsupplyName[4] = [分包先4]
+    &FsupplyName[5] = [分包先5]
+    &FsupplyName[6] = [分包先6]
+    &FsupplyName[7] = [分包先7]
+    &FsupplyName[8] = [分包先8]
+    &FsupplyName[9] = [分包先9]
+    &FsupplyName[10] = [分包先10]
+    &FsupplyName[11] = [分包先11]
+    &FsupplyName[12] = [分包先12]
+    &FsupplyName[13] = [分包先13]
+    &FsupplyName[14] = [分包先14]
+    &FsupplyName[15] = [分包先15]
+    &FsupplyName[16] = [分包先16]
+
+ /*▼-----------------------空欄設定の数だけ空きタックシールを用意する-----------------------■　*/
+    &MaxEnmpty  = 10 - &EmptyCount                  /*←削る数　*/
+    &EmptyAddress = 22　　　　                      　　　　 /*←発送パターン以降のアドレス先を作る　*/
+    　
+    /*▼0ならこの処理を行わない　*/
+    if (&MaxEnmpty ≠ 0)                                   　
+        繰り返し　&NumCount = 1, &MaxEnmpty　    /*←残さない数ぶんカウントを削る　*/
+        &FProcessVer[&EmptyAddress] = ""
+        &EmptyAddress = &EmptyAddress + 1
+        繰り返し終了
+    end　
+
+    /*▼折に台数の数値があったら加工する。　*/
+    if ( [折パターン1] .and  [台数1])　/*折パターン１の場合*/
+        &FProcessVer[3]= [折パターン1]+ " - "+ [台数1]+ "台"
+        &FProcessVer[4]=""
+    end
+
+    if ( [折パターン2] .and  [台数2])　/*折パターン2の場合*/
+        &FProcessVer[5]= [折パターン2]+ " - "+ [台数2]+ "台"
+        &FProcessVer[6]=""
+    end
+
+    if ( [折パターン3] .and  [台数3])　/*折パターン3の場合*/
+        &FProcessVer[7]= [折パターン3]+ " - "+ [台数3]+ "台"
+        &FProcessVer[8]=""
+    end
+
+手続き終了
+
+*■*****************************************************************************
+*■*****************　　　書き込みフェーズ　　   　
+*■*****************************************************************************
+名札　WorkWriteIn
+    
+    /*▼印字作業　*/
+    印字開始　&PMoveTxt
+        繰り返し　&NumCount = 1,31
+
+            /*▼<空欄>があったら、空白のセルを用意する。  */
+            if ( &FProcessVer[&NumCount]  ="<空欄>")　
+                &FProcessVer[&NumCount]  = " "
+            end
+    
+            /*▼空白の変数でなければ印字する。発送フェーズに下処理を行うようにする必要がある　*/
+            if(&FProcessVer[&NumCount] ≠ "")
+
+                /*▼発送項目に記載があれば、発送分岐を入れる対応を入れる */
+                if(&NumCount = 21 )　
+            
+                    繰り返し &NumCountII = 1,16
+
+                        /*▼さらに、日付設定が空でなければ */
+                        if( &FsupplyDay[&NumCountII] ≠ "") 
+                
+                            印字　 &SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&FsupplyDay[&NumCountII],"↑",&FsupplyTime[&NumCountII],"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[21]+" "+ &FsupplyName[&NumCountII]
+                            &SendingCount = &SendingCount + 1
+                        end
+                    繰り返し終了
+                
+                    /*▼発送の詳細が無い場合は、発送名だけを出力 */
+                    if(&SendingCount = 0) 
+                        印字　　&SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&DeliveryDayVer,"↑",&DeliveryDataVer,"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[&NumCount]
+                    end
+                    /*▼そうじゃなかったらこっち */
+　　　　　　        else 
+　                      印字　 &SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&DeliveryDayVer,"↑",&DeliveryDataVer,"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[&NumCount]
+                end
+
+                /*▼次の行に行く前に日付空欄判定を初期化 */
+                &SendingCount =　0
+            end
+        繰り返し終了
+    印字終了
+手続き終了
+
+*■*****************************************************************************
+*■*****************　　テキストを仕上カードテーブルに吐き出す　　　   　
+*■*****************************************************************************
+名札 CardTBXOutPut
+
+    表　&PSetCard
+    行削除　*,圧縮
+    読み込み　テキスト, &PMoveTxt ,区切り="↑"
+
+手続き終了
+*■*****************************************************************************
+*■*****************　　タックシールでプリントアウト　　　   　
+*■*****************************************************************************
+名札　PrintOut
+
+    /*▼曜日によって使うrpxを変えます。  */
+Switch
+    case (&weekPattern = "Sky") /*　日曜日は　謎の色！*/
+        &ColorIndex = 1
+        
+    case (&weekPattern = "Red") /* 月曜日は　赤！*/
+        &ColorIndex = 2
+    
+    case (&weekPattern = "Orange") /* 火曜日は　オレンジ！*/
+        &ColorIndex = 3
+
+    case (&weekPattern = "Bule") /* 水曜日は　青！*/
+        &ColorIndex = 4
+
+    case (&weekPattern = "Green") /* 木曜日は　緑！*/
+        &ColorIndex = 5
+
+    case (&weekPattern = "Yellow") /* 金曜日は　黄色！*/
+        &ColorIndex = 6
+
+    case (&weekPattern = "Purple") /*  土曜日は　紫！*/
+        &ColorIndex = 7
+　　　
+    Default /*ケース分けに該当しない場合はデフォをだす*/
+        &ColorIndex = 8
+    End
+    
+    /*▼ここから印刷　*/
+    レポート印刷　&rpxPath + &ticketName + &rpxColor[&ColorIndex] , \
+        ファイル = &PSetCard　，\
+        カラー印刷 = する　，\
+        プレビュー = &PrintPreview　，\
+        終了状態 = &ok
+
+    終了　表　編集対象表
+
+手続き終了
+*■*****************************************************************************
+*■*****************　　　　　全一括プリント   　
+*■*****************************************************************************
+名札　AllBlanksPrint
+
+    絞り込み　[プリント済]{""} /*空白な行を絞る*/
+
+    印字開始　&PMoveTxt
+         繰り返し　( .Not #終端行 )
+            
+            手続き実行　WorkRead
+
+            繰り返し　&NumCount = 1,31
+            /*▼<空欄>があったら、空白のセルを用意する。  */
+            if ( &FProcessVer[&NumCount]  ="<空欄>")
+                &FProcessVer[&NumCount]  = " "
+            end
+    
+            ************   空白の変数でなければ印字する *******************************　発送フェーズに下処理を行うようにする必要がある
+            /*▼空白の変数でなければ印字する。発送フェーズに下処理を行うようにする必要がある　*/
+            if(&FProcessVer[&NumCount] ≠ "")
+                if(&NumCount = 21 )　/*▼発送項目に記載があれば、発送分岐を入れる対応を入れる */
+
+                    繰り返し &NumCountII = 1,16
+                        if( &FsupplyDay[&NumCountII] ≠ "") /*▼さらに、日付設定がからでなければ　*/
+                            印字　 &SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&FsupplyDay[&NumCountII],"↑",&FsupplyTime[&NumCountII],"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[21]+" "+ &FsupplyName[&NumCountII]
+                            &SendingCount = &SendingCount + 1
+                        end
+                    繰り返し終了
+                    if(&SendingCount = 0) /*▼発送の詳細が無い場合は、発送名だけを出力　*/      
+                        印字　　&SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&DeliveryDayVer,"↑",&DeliveryDataVer,"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[&NumCount]
+                    end
+                else  /*そうじゃなかったらこっち*/
+                    印字　 &SlipVer,"↑",&ClassVer ,"↑",&ProductNameVer,"↑",&CostomerVer,"↑",&CountVer,"↑",&PageNum,"↑",&SizeNum,"↑",&DeliveryDayVer,"↑",&DeliveryDataVer,"↑",&PrintMachine,"↑",&PrintingDayVer,"↑",&FProcessVer[&NumCount]
+                end
+                
+                /*▼次の行に行く前に日付空欄判定を初期化 */
+                    &SendingCount =　0
+            end
+            繰り返し終了
+        ジャンプ　行番号 = 次行
+    繰り返し終了
+    印字終了
+
+    /*▼印刷済みにする　*/
+    メッセージボックス "項目の出力済確認",\
+        "カード化した案件を出力済みにしますか？　\n（済にすると以降まとめて印刷する時に表示されなくなります。）" , \
+        アイコン　= ? ,\
+        ボタン指定 = 5 , \
+        制御文字展開　= する,\
+        &v
+    
+    if (&v = 6) /*←「はい」を選択したときの処理　*/
+        置換　終了状態 = &ok, [プリント済] = "済"
+        置換　終了状態 = &ok, [工程管理反映] = "済"
+    end
+
+    /*▼戻す　*/
+    解除 ＊
+
+手続き終了
+
