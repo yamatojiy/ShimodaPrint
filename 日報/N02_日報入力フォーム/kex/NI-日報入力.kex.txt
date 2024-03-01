@@ -37,7 +37,7 @@ var 文字列{ &subMastaTbx = &dataPath + "..\..\..\submaster.tbx"  }
 var 文字列{ &icon1Png = &dataPath + "..\png\1.png" }
 var 文字列{ &icon2Png = &dataPath + "..\png\2.png" }
 var 文字列{ &icon3Png = &dataPath + "..\png\3.png" }
-
+var 文字列{ &icon4Png = &dataPath + "..\png\4.png" }
 
 /*▼カレンダーと電卓のパス　*/
 var 文字列{ &カレンダーmodal    = &dataPath + "..\..\..\Option\function\calendar\INF_DatePicker.wfx"}
@@ -68,6 +68,10 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
 手続き定義開始 組版用属性情報代入（）
     &作業tbxId　= #IS表
     &outPutNum = 3
+手続き定義終了
+手続き定義開始 製版用属性情報代入（）
+    &作業tbxId　= #IS表
+    &outPutNum = 4
 手続き定義終了
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 *■*:　入力されている情報を元に一行追加します。
