@@ -15,6 +15,7 @@ var 文字列{ &用紙ID検索wfxPath = #データパス名 }
 var 文字列{ &用紙subTbx  = &用紙ID検索wfxPath + "..\..\..\submaster.tbx"}
 var 文字列{ &用紙工程管理Tbx  = &用紙ID検索wfxPath + "..\..\..\工程管理\kotei_MASTER.TBX"}
 
+
 var 文字列{ &用紙IDTbx =  &用紙ID検索wfxPath +  "..\tbx\用紙ID.tbx" }
 *var 文字列{ &用紙IDTbx = &用紙ID検索wfxPath +  "..\tbx\用紙ID.tbx" }/*←本番用 */
 
@@ -22,14 +23,22 @@ var 文字列{ &用紙サイズtbx = &用紙ID検索wfxPath +  "..\..\..\Option\
 
 
 /*▼画像データ */
-var 文字列{ &iconPng1 = &用紙ID検索wfxPath + "..\png\seo.png" }
+var 文字列{ &iconPng1 = &用紙ID検索wfxPath + "png\seo.png" }
 
 /*▼モーダルフォーム */
-var 文字列{ &銘柄選択modal = &用紙ID検索wfxPath + "..\modal\【用紙ID】銘柄選択モーダル.wfx" }
-var 文字列{ &サブ銘柄選択modal = &用紙ID検索wfxPath + "..\modal\【用紙ID】SUB銘柄選択モーダル.wfx" }
-var 文字列{ &サイズ選択modal = &用紙ID検索wfxPath + "..\modal\【用紙ID】サイズ選択モーダル.wfx" }
-var 文字列{ &目選択modal = &用紙ID検索wfxPath + "..\modal\【用紙ID】目_選択モーダル.wfx" }
-var 文字列{ &重さ選択modal = &用紙ID検索wfxPath + "..\modal\【用紙ID】重さ選択モーダル.wfx" }
+var 文字列{ &銘柄選択modal      = &用紙ID検索wfxPath + "wfx\【用紙ID】銘柄選択モーダル.wfx" }
+var 文字列{ &サブ銘柄選択modal  = &用紙ID検索wfxPath + "wfx\【用紙ID】SUB銘柄選択モーダル.wfx" }
+var 文字列{ &サイズ選択modal    = &用紙ID検索wfxPath + "wfx\【用紙ID】サイズ選択モーダル.wfx" }
+var 文字列{ &目選択modal       = &用紙ID検索wfxPath + "wfx\【用紙ID】目_選択モーダル.wfx" }
+var 文字列{ &重さ選択modal      = &用紙ID検索wfxPath + "wfx\【用紙ID】重さ選択モーダル.wfx" }
+
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　グローバル変数引き継ぎ
+*■*:
+*■*:    &実行リターン　：　共通変数　実行時職種な格納をする際に割り当てる
+*■*:
+*■*:    &作業tbxId　：　固定変数　戻し先tbxID　参照する前の　フォームで定義しておく
+
 *■*----------------------------------------------------------
 *■*-----　基本処理
 *■*----------------------------------------------------------
