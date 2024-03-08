@@ -37,7 +37,7 @@ var 文字列{ &日報登録cmx = &dataPath + "..\cmx\N2-日報登録.cmx" }
 var 文字列{ &用紙行訂正cmx = &dataPath + "..\cmx\N2-用紙検索起動.cmx" }
 
 /*▼フォーム立ち上げ */
-var 文字列{ &用紙検索wfx = &dataPath + "..\..\..\用紙管理\systemv2\wfx\【用紙ID】検索フォーム.wfx" }
+var 文字列{ &用紙検索wfx = &dataPath + "..\..\..\system\modal\用紙ID検索\【用紙ID】検索フォーム.wfx" }
 
 /*▼ファイルの外パス */
 var 文字列{ &subMastaTbx = &dataPath + "..\..\..\submaster.tbx"  }
