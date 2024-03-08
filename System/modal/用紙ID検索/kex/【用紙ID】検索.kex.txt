@@ -16,8 +16,8 @@ var 文字列{ &用紙subTbx  = &用紙ID検索wfxPath + "..\..\..\submaster.tbx
 var 文字列{ &用紙工程管理Tbx  = &用紙ID検索wfxPath + "..\..\..\工程管理\kotei_MASTER.TBX"}
 
 
-var 文字列{ &用紙IDTbx =  &用紙ID検索wfxPath +  "..\tbx\用紙ID.tbx" }
-*var 文字列{ &用紙IDTbx = &用紙ID検索wfxPath +  "..\tbx\用紙ID.tbx" }/*←本番用 */
+var 文字列{ &用紙IDTbx =  &用紙ID検索wfxPath +  "..\..\..\用紙管理\system\tbx\用紙ID.tbx" }
+*var 文字列{ &用紙IDTbx = &用紙ID検索wfxPath +  "..\..\..\..\用紙管理\system\tbx\用紙ID.tbx" }/*←本番用 */
 
 var 文字列{ &用紙サイズtbx = &用紙ID検索wfxPath +  "..\..\..\Option\tbx\1_用紙サイズリスト.tbx" }
 
