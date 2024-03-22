@@ -11,8 +11,8 @@ var 数値  { &CHK }
 /*▼共通日報変数 */
 var 数値  { &outPutNum = 0 , &作業tbxId } /*←日報に戻す際のコード */
 var 日時  { &IN日付N　}
-var 数値  { &IN係N　, &INCDN , &伝票ナンバーN , &INミスN , &IN内容コードN , &IN時間N　}
-var 文字列{ &IN担当者N , &IN備考N , &IN内容記載N , &IN得意先N , &IN品名N }
+var 数値  { &IN係N　, &INCDN , &伝票ナンバーN , &INミスN , &IN内容コードN , &IN時間N　, &IN部数N }
+var 文字列{ &IN担当者N , &IN備考N , &IN内容記載N , &IN得意先N , &IN品名N , &INサイズN , &INページ数N　}
 
 /*▼印刷日報用変数 */
 var 数値  { &IN印刷サイズN , &IN版数N , &IN台数N , &IN表N　, &IN裏N , &IN実数N , &IN予備数N　}
@@ -71,23 +71,18 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
     &outPutNum = 1
     &実行リターン = 12
     &mCD = #行番号
-    &IN係N = 6
 手続き定義終了
 手続き定義開始 仕上用属性情報代入（）
     &作業tbxId　= #IS表
     &outPutNum = 2
-    &IN係N = 7
 手続き定義終了
 手続き定義開始 組版用属性情報代入（）
     &作業tbxId　= #IS表
     &outPutNum = 3
-    &IN係N = 4
 手続き定義終了
 手続き定義開始 製版用属性情報代入（）
     &作業tbxId　= #IS表
     &outPutNum = 4
-    &IN係N = 2
-
 手続き定義終了
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 *■*:　入力されている情報を元に一行追加します。
@@ -104,6 +99,9 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
     &伝票ナンバーN = ""
     &IN得意先N  　= ""
     &IN品名N     = ""
+    &INサイズN    = ""
+    &IN部数N     = ""
+    &INページ数N  = ""
 
     メソッド呼び出し @フォーム.変数変更()
 
@@ -127,6 +125,22 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
         if (&CHK = 1)
             &IN得意先N =　[得意先]
             &IN品名N　　= [品名]
+            &INサイズN  = [サイズ]
+
+            /*▼部数か確定部数 */
+            if ([確定部数])
+                &IN部数N = [確定部数]
+            else
+                &IN部数N = [部数]
+            end
+
+            /*▼ページ数か確定ページ数 */
+            if ([確定頁数])
+                &INページ数N = [確定頁数]
+            else
+                &INページ数N = [頁数]
+            end
+
         end
 
         解除 1
