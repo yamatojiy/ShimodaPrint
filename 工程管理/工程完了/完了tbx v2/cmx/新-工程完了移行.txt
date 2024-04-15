@@ -14,10 +14,10 @@ var 文字列{ &完了detaPath = #データパス名 }
 var 文字列{ &工程tbx = &完了detaPath + "..\..\kotei_MASTER.TBX" }
 
 /*▼旧工程完了 */
-var 文字列{ &旧工程完了tbx = &完了detaPath + "..\..\kotei_kanryou.TBX" }
+var 文字列{ &旧工程完了tbx = &完了detaPath + "..\..\工程完了\kotei_kanryou.TBX" }
 
 /*▼新工程完了 */
-var 文字列{ &新工程完了tbx = &完了detaPath + "..\作業完了Base.tbx" }
+var 文字列{ &新工程完了tbx = &完了detaPath + "作業完了Base.tbx" }
 
 
 /*▼Smasta */
@@ -82,8 +82,8 @@ var 文字列{ &KYE , &SmastaKye , &PASS }
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　各完了への書き出し処理
 
-    書出し　表 , &旧工程完了tbx , 追加 , , *
-    書出し　表 , &新工程完了tbx , 追加 , , *
+    書き出し　表 , &旧工程完了tbx , 追加 , , *
+    書き出し　表 , &新工程完了tbx , 追加 , , *
 
 　　　行削除　＊
 　　　絞り込み解除　＊
