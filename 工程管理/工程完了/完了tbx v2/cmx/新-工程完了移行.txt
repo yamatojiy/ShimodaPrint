@@ -3,21 +3,25 @@
 *■*** 完了Boot
 *■***********************************************************
 
-/*▼ファイル系 */
+/*▼チェック系 */
 var 数値  { &CHK , &CHK2 , &CHK3 }
 
-*var 文字列{ &工程tbx = "X:\工程管理\kotei_MASTER.TBX" }
-var 文字列{ &工程tbx = "X:\工程管理\工程完了\完了tbx v2\test\kotei_MASTER - コピー.TBX" }
 
-*var 文字列{ &工程完了tbx = "X:\工程管理\工程完了\kotei_kanryou.TBX" }
-var 文字列{ &工程完了tbx = "X:\工程管理\工程完了\完了tbx v2\test\kotei_kanryou - コピー.TBX" }
+/*▼データパス */
+var 文字列{ &完了detaPath = #データパス名 }
 
-*var 文字列{ &Smastatbx = "X:\作業伝票\Smasta.tbx" }
-var 文字列{ &Smastatbx = "X:\工程管理\工程完了\完了tbx v2\test\Smasta - コピー.tbx" }
+/*▼工程管理 */
+var 文字列{ &工程tbx = &完了detaPath + "..\..\kotei_MASTER.TBX" }
+
+/*▼旧工程完了 */
+var 文字列{ &旧工程完了tbx = &完了detaPath + "..\..\kotei_kanryou.TBX" }
+
+/*▼新工程完了 */
+var 文字列{ &新工程完了tbx = &完了detaPath + "..\作業完了Base.tbx" }
 
 
-var 文字列{ &工程V2tbx = "X:\工程管理\工程完了\完了tbx v2\作業完了.tbx"}
-var 文字列{ &抽出tbx = "X:\工程管理\工程完了\完了tbx v2\01_1抽出koutei.tbx" }
+/*▼Smasta */
+var 文字列{ &Smastatbx = &完了detaPath + "..\..\..\作業伝票\Smasta.tbx" }
 
 
 /*▼入力操作用変数 */
@@ -78,8 +82,8 @@ var 文字列{ &KYE , &SmastaKye , &PASS }
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　各完了への書き出し処理
 
-    書出し　表 , &工程完了tbx , 追加 , , *
-    書出し　表 , &工程V2tbx   , 追加 , , *
+    書出し　表 , &旧工程完了tbx , 追加 , , *
+    書出し　表 , &新工程完了tbx , 追加 , , *
 
 　　　行削除　＊
 　　　絞り込み解除　＊
