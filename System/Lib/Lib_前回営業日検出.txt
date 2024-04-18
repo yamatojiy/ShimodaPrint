@@ -26,7 +26,7 @@
 手続き定義開始 Lib前回営業日検出（ 日時　&今日 ,　参照　日時 &前回営業日　　）
     
     /*▼変数宣言 */
-    var 文字列{ &HolidayListTbx = #一括パス名 + "..\modal\prepackage\tbx\01_01_HolidayList.tbx" }
+    var 文字列{ &HolidayListTbx = #一括パス名 + "..\tbx\01_01_HolidayList.tbx" }
     var 数値  { &H表ID  , &i = 0 , &H行番号 = 0 , &CHK }
     var 日時  { &検査日 = &今日 }
     var 文字列{ &msgtxt }
