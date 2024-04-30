@@ -7,7 +7,7 @@
     var 日時  { &作業日 = #日時値 }
 
     var 数値  { &Pinrt1 = 0 , &Ptbxnum  }
-    var 日時  { &day = #日時値 , &昨日　= #日時値 }
+    var 日時  { &day = #日時値 , &昨日　= #日時日付( #日時値 ) }
 
 名札 MAIN
 
@@ -19,15 +19,15 @@
         &Ptbxnum = #表番号取得( &PrintscheduleTbx )
         編集表 &Ptbxnum
 
-        絞り込み [プリント№] { [] < 16  } , 終了状態 = &CHK
-        レポート印刷 &printScheduleRpx , 編集表 = する , プレビュー = する , 終了状態 = &CHK
+        絞り込み [プリント№] { [] < 17  } , 終了状態 = &CHK
+        レポート印刷 &printScheduleRpx , 編集表 = する , カラー印刷 = する　, プレビュー = する , 終了状態 = &CHK
 
 
 
         /*▼フォルダ作成 */
         フォルダ作成 &PDFAddress , 終了状態 = &CHK
         フォルダ作成 &PDFDataAddress , 終了状態 = &CHK
-        レポート印刷　&printScheduleRpx , 文書ファイル = &PDFNamePrint 
+        レポート印刷　&printScheduleRpx , 文書ファイル = &PDFNamePrint , カラー印刷 = する　
 
     終了　表　&Ptbxnum
 
@@ -134,9 +134,9 @@
     繰り返し（ .NOT #終端行 ）
     
         *■*::::::::::::::::::::::::::::::::
-        *■*:　印刷日がずれていたら+1する
+        *■*:　印刷日がずれていたら補正する
         if ( &day <> &昨日 )
-            &Pinrt1 = &Pinrt1 + 1
+            &Pinrt1 = &Pinrt1 + 1.4
         end
 
         /*▼ナンバーを入れ込む */
