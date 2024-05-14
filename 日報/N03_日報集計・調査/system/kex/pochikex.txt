@@ -1,0 +1,44 @@
+*■***********************************************************
+*■*** ぽちっと集計君　変数定義
+*■***********************************************************
+
+var 数値  { &検索変数 = 0  }
+
+var 文字列{ &pochiDataWfxPath = #データパス名 } /*←ｗｆｘの所在地 */
+
+var 文字列{ &ぽち画像1png =　&pochiDataWfxPath　+ "system\png\pet_darui_dog.png" }
+
+*■*----------------------------------------------------------
+*■*----- 一括処理用変数
+*■*----------------------------------------------------------
+
+/*▼共有変数 */
+var 数値  { &CHK }
+var 文字列{ &↑ = "↑" , &msgtxt }
+
+
+var 文字列{ &組版日報　= &pochiDataWfxPath + "..\日報組版.tbx" }
+var 文字列{ &製版日報　= &pochiDataWfxPath + "..\日報製版.tbx" }
+var 文字列{ &印刷日報　= &pochiDataWfxPath + "..\日報印刷.tbx" }
+var 文字列{ &仕上日報　= &pochiDataWfxPath + "..\日報仕上.tbx" }
+var 文字列{ &日報[4] =　{ &組版日報 , &製版日報 , &印刷日報 , &仕上日報 }  }
+
+var 文字列{ &データtxt = &pochiDataWfxPath + "system\tbx\de-ta.txt" }
+var 文字列{ &toptxt = &pochiDataWfxPath + "system\tbx\top.txt" }
+
+
+
+var 数値  { &伝票No }
+var 数値  { &格納変数 }
+var 数値  { &作業コード }
+var 文字列{ &作業名称 }
+
+/*▼最初のダイアログ変数 */
+var 文字列{ &InputTitle = "検索する伝票番号を入れてください" }
+
+var 文字列{ &調査結果    = &pochiDataWfxPath + "system\tbx\調査結果.tbx" }
+var 文字列{ &作業コードtbx =　&pochiDataWfxPath + "..\..\kost管理\KOSTO_TBL\新CODE.TBX" }
+var 文字列{ &工程完了tbx = &pochiDataWfxPath + "..\..\工程管理\工程完了\kotei_kanryou.TBX"}
+var 文字列{ &pochiSubmasTbx = &pochiDataWfxPath + "..\..\submaster.tbx" }
+
+var 文字列{ &ポチっと実行cmx = &pochiDataWfxPath + "system\cmx\ぽちっと集計君.cmx" }

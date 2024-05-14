@@ -22,8 +22,6 @@
         絞り込み [プリント№] { [] < 17  } , 終了状態 = &CHK
         レポート印刷 &printScheduleRpx , 編集表 = する , カラー印刷 = する　, プレビュー = する , 終了状態 = &CHK
 
-
-
         /*▼フォルダ作成 */
         フォルダ作成 &PDFAddress , 終了状態 = &CHK
         フォルダ作成 &PDFDataAddress , 終了状態 = &CHK
