@@ -600,7 +600,7 @@ var 文字列{ &backUpTextName  = &完了detaPath + "tbx\保存\"}
 *■*----------------------------------------------------------
 手続き定義開始 Smasta更新作業（ 数値 &伝票No , 文字列 &Page , 数値 &Circulation , 文字列 &Size , 日時　&deliveryDate ）
 
-    編集表　2
+    編集表　&SmastatbxNum
 
     検索 [伝票ＮＯ] { &伝票No } , 終了状態 = &CHK
 
