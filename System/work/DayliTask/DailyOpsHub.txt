@@ -10,8 +10,8 @@
     var 数値  { &CHK , &CHK2 , &CHK3 }
     var 文字列{ &datapath = #データパス名 }
     var 文字列{ &msgtxt }
-*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*■*:　表整理タスクtbx
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    *■*:　表整理タスクtbx
     var 数値  { &TaskNum = 13 }
 
     var 文字列{ &tbxFileName[&TaskNum] ={""} }
@@ -61,31 +61,31 @@
 
     var 数値  { &tbxOpenChk[&TaskNum] = {0} }
 
-*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*■*:　工程完了用変数
+    *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    *■*:　工程完了用変数
 
-/*▼移行用データテーブル */
-var 文字列{ &移行データtbx = &tbxAddress[5] + "tbx\移行ログ.tbx" } /*←工程完了v2フォルダの直下に設定する */
-var 数値  { &移行データtbxNum = 0 }
-var 数値  { &FileCount }
+    /*▼移行用データテーブル */
+    var 文字列{ &移行データtbx = &tbxAddress[5] + "tbx\移行ログ.tbx" } /*←工程完了v2フォルダの直下に設定する */
+    var 数値  { &移行データtbxNum = 0 }
+    var 数値  { &FileCount }
 
-/*▼工程管理 */
-var 文字列{ &工程tbx = &tbxAddress[3] + &tbxFileName[3] }
-var 数値  { &工程tbxNum = 0 }
+    /*▼工程管理 */
+    var 文字列{ &工程tbx = &tbxAddress[3] + &tbxFileName[3] }
+    var 数値  { &工程tbxNum = 0 }
 
-/*▼旧工程完了 */
-var 文字列{ &旧工程完了tbx = &tbxAddress[4] + &tbxFileName[4] }
-var 数値  { &旧工程完了tbxNum = 0 }
+    /*▼旧工程完了 */
+    var 文字列{ &旧工程完了tbx = &tbxAddress[4] + &tbxFileName[4] }
+    var 数値  { &旧工程完了tbxNum = 0 }
 
-/*▼新工程完了 */
-var 文字列{ &新工程完了tbx = &tbxAddress[5] + &tbxFileName[5] }
-var 数値  { &新工程完了tbxNum = 0 }
+    /*▼新工程完了 */
+    var 文字列{ &新工程完了tbx = &tbxAddress[5] + &tbxFileName[5] }
+    var 数値  { &新工程完了tbxNum = 0 }
 
-/*▼Smasta */
-var 文字列{ &Smastatbx =  &tbxAddress[1] + &tbxFileName[1] }
-var 数値  { &SmastatbxNum = 0 }
+    /*▼Smasta */
+    var 文字列{ &Smastatbx =  &tbxAddress[1] + &tbxFileName[1] }
+    var 数値  { &SmastatbxNum = 0 }
 
-var 文字列{ &backUpTextName  = &tbxAddress[5] + "tbx\保存\"}
+    var 文字列{ &backUpTextName  = &tbxAddress[5] + "tbx\保存\"}
 
 *■*----------------------------------------------------------
 *■*----- ここからメイン処理
