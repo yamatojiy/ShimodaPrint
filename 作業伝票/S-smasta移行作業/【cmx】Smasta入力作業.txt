@@ -11,7 +11,7 @@ var 文字列{ &msgtxt }
 var 数値  { &TaskTbxNum }
 var 数値  { &印刷区分n }
 var 文字列{ &外注区分 }
-var 文字列{ &組外 , &製外 , &印外 , &仕外 , &全外 }
+var 数値　　{ &組外 , &製外 , &印外 , &仕外 , &全外 }
 
 /*▼Smastaに関するテーブル情報 */
 var 文字列{ &SmastaFaileName = "Smasta.tbx" }
@@ -74,6 +74,17 @@ var 文字列{ &SmastaPass = "fumio" }
         編集表 &Smasta表num
     
     else
+
+        &ansCode = "登録完了"
+        &AnsSTR = "OK"
+
+        編集表 &Input表ID
+
+            行訂正 終了状態 = &CHK , [結果] = &AnsSTR , [詳細] = &ansCode
+
+        編集表 &Smasta表num
+
+
         手続き実行 Smasta格納行追加（）
     end
 
@@ -90,6 +101,7 @@ var 文字列{ &SmastaPass = "fumio" }
     &組版積算 ="" &製版積算 ="" &印刷積算 ="" &仕上積算 ="" &小計 ="" &粗利 ="" &用紙積算 ="" &送料 ="" &外注 =""
     &AnsSTR ="" &ansCode =""
     &組外 ="" &製外 ="" &印外 ="" &仕外 ="" &全外 =""
+    &ansCode =""  &AnsSTR =""
 手続き定義終了
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 *■*:　格納用
