@@ -12,7 +12,7 @@
     var 文字列{ &msgtxt }
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　表整理タスクtbx
-    var 数値  { &TaskNum = 13 }
+    var 数値  { &TaskNum = 22 }
 
     var 文字列{ &tbxFileName[&TaskNum] ={""} }
         &tbxFileName[1] = "Smasta.tbx"
@@ -28,6 +28,15 @@
         &tbxFileName[11] = "支店-伝票冊子.tbx"
         &tbxFileName[12] = "支店-伝票複写.tbx"
         &tbxFileName[13] = "支店-伝票新聞.tbx"
+        &tbxFileName[14] = "日報印刷.tbx"
+        &tbxFileName[15] = "日報管理.tbx"
+        &tbxFileName[16] = "日報仕上.tbx"
+        &tbxFileName[17] = "日報製版.tbx"
+        &tbxFileName[18] = "日報組版.tbx"
+        &tbxFileName[19] = "用紙.TBX"
+        &tbxFileName[20] = "新入庫情報管理.tbx"
+        &tbxFileName[21] = "新用紙管理.tbx"
+        &tbxFileName[22] = "外注一覧.tbx"
 
     var 文字列{ &tbxAddress[&TaskNum] = {} }
         &tbxAddress[1] = #データパス名 + "..\..\..\作業伝票\"                           /*←Smasta */
@@ -43,6 +52,15 @@
         &tbxAddress[11] = "\\192.168.129.240\kiridata\伝票\tbx\"          /*←支店-冊子 */
         &tbxAddress[12] = "\\192.168.129.240\kiridata\伝票\tbx\"          /*←支店-複写 */
         &tbxAddress[13] = "\\192.168.129.240\kiridata\伝票\tbx\"          /*←支店-新聞 */
+        &tbxAddress[14] = #データパス名 + "..\..\..\日報\"                 /*←日報印刷 */
+        &tbxAddress[15] = #データパス名 + "..\..\..\日報\"                 /*←日報管理 */
+        &tbxAddress[16] = #データパス名 + "..\..\..\日報\"                 /*←日報仕上 */
+        &tbxAddress[17] = #データパス名 + "..\..\..\日報\"                 /*←日報製版 */
+        &tbxAddress[18] = #データパス名 + "..\..\..\日報\"                 /*←日報組版 */
+        &tbxAddress[19] = #データパス名 + "..\..\..\用紙管理\"                 /*←用紙 */
+        &tbxAddress[20] = #データパス名 + "..\..\..\用紙管理\system\tbx\"      /*←入庫情報管理 */
+        &tbxAddress[21] = #データパス名 + "..\..\..\用紙管理\system\tbx\"      /*←新用紙管理 */
+        &tbxAddress[22] = #データパス名 + "..\..\..\外注管理\"               /*←外注管理*/
 
     var 文字列{ &tbxPass[&TaskNum] = {} }
         &tbxPass[1] = "fumio"
@@ -58,7 +76,16 @@
         &tbxPass[11] = "okuda06"
         &tbxPass[12] = "okuda06"
         &tbxPass[13] = "okuda06"
-
+        &tbxPass[14] = "gyoumu"
+        &tbxPass[15] = "gyoumu"
+        &tbxPass[16] = "gyoumu"
+        &tbxPass[17] = "gyoumu"
+        &tbxPass[18] = "gyoumu"
+        &tbxPass[19] = "gyoumu"
+        &tbxPass[20] = "addidp"
+        &tbxPass[21] = "addidp"
+        &tbxPass[22] = "okuda06"
+        
     var 数値  { &tbxOpenChk[&TaskNum] = {0} }
 
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -228,7 +255,10 @@
         利用者コード &pass
 
         表 &openFilePath  , モード = 専有
+            
             &tNum = #IS表
+
+            解除 *
 
             表整理 余白割合 = 0
          
