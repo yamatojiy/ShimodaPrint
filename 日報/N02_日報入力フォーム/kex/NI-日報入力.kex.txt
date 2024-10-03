@@ -7,6 +7,7 @@
 
 /*▼汎用変数 */
 var 数値  { &CHK }
+var 文字列{ &日報type = "" }
 
 /*▼共通日報変数 */
 var 数値  { &outPutNum = 0 , &作業tbxId } /*←日報に戻す際のコード */
@@ -29,7 +30,7 @@ var 数値  { &重さMS , &サイズMS　, &NumMS , &用紙IDMS }
 
 /*▼ファイルアドレス */
 var 文字列{ &dataPath = #データパス名 }
-var 文字列{ &シモダ社員tbx = &dataPath + "..\tbx\005_シモダ社員情報.tbx" }
+var 文字列{ &シモダ社員tbx = &dataPath + "..\..\..\Option\tbx\005_シモダ社員情報.tbx" }
 var 文字列{ &作業コードtbx = &dataPath + "..\tbx\10_作業コードリスト.tbx" }
 
 /*▼一括処理 */
@@ -51,6 +52,7 @@ var 文字列{ &icon4Png = &dataPath + "..\png\4.png" }
 /*▼カレンダーと電卓のパス　*/
 var 文字列{ &カレンダーmodal    = &dataPath + "..\..\..\Option\function\calendar\INF_DatePicker.wfx"}
 var 文字列{ &電卓modal        = &dataPath   + "..\..\..\Option\function\calculator\INF_電卓.wfx"}
+var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\function\汎用\15_従業員リスト.wfx"}
 var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\function\汎用\15_従業員リスト.wfx"}
 *■*----------------------------------------------------------
 *■*----- メイン処理
@@ -110,7 +112,7 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
 *■*:　フォーム開始の処理
 手続き定義開始　フォーム::フォーム開始(長整数　&表番号)
 
-    
+        &日報type = #表題    
 
 
 手続き定義終了
