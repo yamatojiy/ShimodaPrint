@@ -112,6 +112,21 @@ var 文字列{ &AnsSTR , &ansCode }
 
     &Input表ID = #IS表
 
+    *■* var 数値  { &loopCHK1 = 0 }
+    *■* var 文字列{ &passWord = "" , &ansWord = "えすますたくん" }
+
+    *■* 繰り返し（ &loopCHK1 = 0 ）
+    *■*
+    *■*    文字入力　 ( 01，01 ) ,\
+    *■*        プロンプト = "PassWord" ,\
+    *■*        バッファクリア = する , \
+    *■*        &passWord
+    *■*    
+    *■*    if ( &passWord = &ansWord )
+    *■*        繰り返し中止
+    *■*    end    
+    *■* 繰り返し終了
+    
     var 数値  { &i = 1 , &c = 1 }
 
     繰り返し（ &i　=< 4 ）
