@@ -1,0 +1,10 @@
+kex
+
+..\kex\EX-Master.kex
+
+
+Tbx
+..\tbx\伝票枚葉.tbx
+..\tbx\伝票冊子.tbx
+..\tbx\伝票新聞.tbx
+..\tbx\伝票複写.tbx
