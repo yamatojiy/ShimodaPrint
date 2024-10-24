@@ -55,6 +55,9 @@ var 文字列{ &nS電卓modal = &用紙入庫DPath + "..\..\System\modal\Calcula
 /*▼用紙仕入先選択 */
 var 文字列{ &nS仕入会社modal = &用紙入庫DPath + "..\..\System\modal\General\004_用紙_08_01_製紙会社リスト_1.wfx" }
 
+/*▼単価種リスト */
+var 文字列{ &nS単価種modal = &用紙入庫DPath + "..\..\System\modal\General\004_用紙_02_08_単価種_1.wfx" }
+
 /*▼用紙索引 */
 var 文字列{ &S用紙IDmodal = &用紙入庫DPath + "..\01_用紙ID\用紙ID索引フォーム.wfx"  }
 
