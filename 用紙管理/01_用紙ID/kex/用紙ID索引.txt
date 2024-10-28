@@ -39,11 +39,11 @@ var 文字列{ &用紙サイズtbx = &外部tbxPath + "04_01_用紙サイズリ�
 
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 *■*:　/*▼モーダルフォーム */
-var 文字列{ &銘柄選択modal    = &用紙ID検索wfxPath       + "..\system\modal\【用紙ID】銘柄選択モーダル.wfx" }
-var 文字列{ &サブ銘柄選択modal = &用紙ID検索wfxPath       + "..\system\modal\【用紙ID】SUB銘柄選択モーダル.wfx" }
-var 文字列{ &サイズ選択modal   = &用紙ID検索wfxPath       + "..\system\modal\【用紙ID】サイズ選択モーダル.wfx" }
-var 文字列{ &目選択modal      = &用紙ID検索wfxPath       + "..\system\modal\【用紙ID】目_選択モーダル.wfx" }
-var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "..\system\modal\【用紙ID】重さ選択モーダル.wfx" }
+var 文字列{ &銘柄選択modal    = &用紙ID検索wfxPath       + "\modal\【用紙ID】銘柄選択モーダル.wfx" }
+var 文字列{ &サブ銘柄選択modal = &用紙ID検索wfxPath       + "\modal\【用紙ID】SUB銘柄選択モーダル.wfx" }
+var 文字列{ &サイズ選択modal   = &用紙ID検索wfxPath       + "\modal\【用紙ID】サイズ選択モーダル.wfx" }
+var 文字列{ &目選択modal      = &用紙ID検索wfxPath       + "\modal\【用紙ID】目_選択モーダル.wfx" }
+var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\【用紙ID】重さ選択モーダル.wfx" }
 
 *■*----------------------------------------------------------
 *■*-----　基本処理
