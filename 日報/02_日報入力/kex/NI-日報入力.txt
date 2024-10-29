@@ -27,33 +27,41 @@ var 数値  { &mCD = 0 }
 var 文字列{ &銘柄MS , &サブ銘柄MS , &YTMS , &サイズ名MS }
 var 数値  { &重さMS , &サイズMS　, &NumMS , &用紙IDMS }
 
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　ファイルアドレス
 
 /*▼ファイルアドレス */
 var 文字列{ &dataPath = #データパス名 }
-var 文字列{ &シモダ社員tbx = &dataPath + "..\..\..\Option\tbx\005_シモダ社員情報.tbx" }
-var 文字列{ &作業コードtbx = &dataPath + "..\tbx\10_作業コードリスト.tbx" }
+var 文字列{ &シモダ社員tbx = &dataPath + "..\..\system\tbx\03_01_シモダ社員情報.tbx" }
+var 文字列{ &作業コードtbx = &dataPath + "tbx\10_作業コードリスト.tbx" }
+var 文字列{ &用紙IDTbx  = &dataPath + "..\..\用紙管理\01_用紙ID\用紙ID.tbx" }
 
 /*▼一括処理 */
-var 文字列{ &日報登録cmx = &dataPath + "..\cmx\N2-日報登録.cmx" }
-var 文字列{ &用紙行訂正cmx = &dataPath + "..\cmx\N2-用紙検索起動.cmx" }
-
-/*▼フォーム立ち上げ */
-var 文字列{ &用紙検索wfx = &dataPath + "..\..\..\system\modal\用紙ID検索\【用紙ID】検索フォーム.wfx" }
+var 文字列{ &日報登録cmx = &dataPath + "cmx\N2-日報登録.cmx" }
 
 /*▼ファイルの外パス */
-var 文字列{ &subMastaTbx = &dataPath + "..\..\..\submaster.tbx"  }
+var 文字列{ &subMastaTbx = &dataPath + "..\..\submaster.tbx"  }
 
 /*▼画像データパス */
-var 文字列{ &icon1Png = &dataPath + "..\png\1.png" }
-var 文字列{ &icon2Png = &dataPath + "..\png\2.png" }
-var 文字列{ &icon3Png = &dataPath + "..\png\3.png" }
-var 文字列{ &icon4Png = &dataPath + "..\png\4.png" }
+var 文字列{ &icon1Png = &dataPath + "png\1.png" }
+var 文字列{ &icon2Png = &dataPath + "png\2.png" }
+var 文字列{ &icon3Png = &dataPath + "png\3.png" }
+var 文字列{ &icon4Png = &dataPath + "png\4.png" }
+
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　モーダルフォーム
+var 数値  { &Num }
+var 文字列{ &Str }
+var 日時  { &Day }
+
+/*▼フォーム立ち上げ */
+var 文字列{ &用紙検索wfx = &dataPath + "..\..\用紙管理\01_用紙ID\用紙ID索引フォーム.wfx" }
 
 /*▼カレンダーと電卓のパス　*/
-var 文字列{ &カレンダーmodal    = &dataPath + "..\..\..\Option\function\calendar\INF_DatePicker.wfx"}
-var 文字列{ &電卓modal        = &dataPath   + "..\..\..\Option\function\calculator\INF_電卓.wfx"}
-var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\function\汎用\15_従業員リスト.wfx"}
-var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\function\汎用\15_従業員リスト.wfx"}
+var 文字列{ &カレンダーmodal    = &dataPath    + "..\..\system\modal\calendar\INF_DatePicker.wfx"}
+var 文字列{ &電卓modal        = &dataPath   + "..\..\system\modal\calculator\INF_電卓.wfx"}
+var 文字列{ &社員リストmodal    = &dataPath   + "..\..\system\modal\General\03_01_社員情報【S】.wfx"}
+var 文字列{ &社員リストmodal    = &dataPath   + "..\..\system\modal\General\03_01_社員情報【S】.wfx"}
 *■*----------------------------------------------------------
 *■*----- メイン処理
 *■*----------------------------------------------------------
@@ -87,6 +95,72 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
     &outPutNum = 4
 手続き定義終了
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　テーブルID調査
+*■*:　ターゲットのテーブルが開いてても開いて無くても表番号を返す関数
+*■*:　引数１：ターゲットのテーブルアドレス
+*■*:　引数２：新規で開くステータス（専有とか参照とか、すでに開いている場合はそのまま）
+*■*:　戻り値：表のＩＤ
+    手続き定義開始 テーブルID調査（ 文字列 &tbx ,文字列　&モード　, 参照　数値　&表ID ）
+
+        *■*-------------------------------------
+        *■*--  編集表番号取得（開いてても問題無し
+        *■*-------------------------------------
+        &表ID = #表番号取得( &tbx )
+        if ( .not &表ID ) /*←未定義なら */
+            
+            表 &tbx , モード = &モード , 終了状態 = &CHK 
+            &表ID = #表番号取得( &tbx )　　
+
+        end
+
+    手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　用紙情報取得処理
+手続き定義開始 用紙ID引用（ 数値 &用紙ID ）
+
+    var 数値  { &表num = 0 }
+
+    var 文字列{ &S銘柄 , &Sサブ銘柄 , &Sサイズ名 , &S目 }
+    var 数値  { &SサイズID , &S重さ }
+
+    手続き実行 テーブルID調査 ( &用紙IDTbx , "共有参照" , &表num )
+
+    編集表　&表num
+
+    検索 [ID] { &用紙ID } , 終了状態 = &CHK 
+
+        if (&CHK = 1)
+        
+            &S銘柄 = [銘柄]
+            &Sサブ銘柄 = [紙色]
+            &SサイズID = [サイズ]
+            &Sサイズ名　= [サイズ名目]
+            &S目     = [目]
+            &S重さ    = [重さ]
+       
+        end
+    
+    終了 表 &表num
+
+    *■*-------------------------------------
+    *■*-- 本体の方に反映
+    *■*-------------------------------------
+    編集表 &作業tbxId
+    メソッド呼び出し @フォーム.更新モード設定(0)
+    if (　&用紙ID　)
+        行訂正 終了状態 = &CHK , [銘柄]= &S銘柄 , [サブ銘柄] = &Sサブ銘柄 , [用紙サイズ] = &SサイズID , [目] = &S目 , [重さ] = &S重さ
+    end
+
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+*■*:　＜　用紙ID入力後　＞
+手続き定義開始　t用紙ID::ソース値更新()
+
+    &作業tbxId　= #IS表 
+    手続き実行　用紙ID引用( [用紙ID] )
+
+手続き定義終了
+*■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 *■*:　入力されている情報を元に一行追加します。
 手続き定義開始 日報行追加（）
 
@@ -112,7 +186,7 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
 *■*:　フォーム開始の処理
 手続き定義開始　フォーム::フォーム開始(長整数　&表番号)
 
-        &日報type = #表題    
+        &日報type = #表題
 
 
 手続き定義終了
@@ -120,8 +194,11 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
 *■*:　伝票番号を表引きして得意先と品名を取得する
 手続き定義開始　IN_伝票ナンバー::ソース値更新()
 
-    表 &subMastaTbx  , 表番号 = 17 , モード = 共有参照　 , 終了状態 = &CHK 
-        編集表 17
+    var 数値  { &表num }
+
+    手続き実行 テーブルID調査 ( &用紙IDTbx , "共有参照" , &表num )
+    編集表 &表num
+
         ジャンプ 行番号 = 1
         検索 [伝票ＮＯ] { &伝票ナンバーN } , 終了状態 = &CHK 
         if (&CHK = 1)
@@ -147,7 +224,7 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
 
         解除 1
 
-    終了 表 17
+    終了 表 &表num
 
     メソッド呼び出し @フォーム.変数変更()
 
@@ -161,7 +238,7 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
     ジャンプ 行番号 = 1
     検索 [略称] { &IN担当者N } , 終了状態 = &CHK 
     if (&CHK = 1)
-        &INCDN = [社員ＣＤ]
+        &INCDN = [社員ID]
     end
     解除 1
      
@@ -178,7 +255,7 @@ var 文字列{ &社員リストmodal    = &dataPath   + "..\..\..\Option\functio
     表 &シモダ社員tbx  , 表番号 = 18 , モード = 共有参照
     編集表 18
     ジャンプ 行番号 = 1
-    検索 [社員ＣＤ] { &INCDN } , 終了状態 = &CHK 
+    検索 [社員ID] { &INCDN } , 終了状態 = &CHK 
     if (&CHK = 1)
         &IN担当者N = [略称]
     end
