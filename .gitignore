@@ -3,7 +3,6 @@
 *.rsc
 工程管理/K-社内全体共有用資料/tbx/MainSchedule.tbx.BAK
 工程管理/K-社内全体共有用資料/PDF/
-工程管理/kotei_MASTER.TBX
 工程管理/K-各印刷予定確認/tbx/koteiCopy.tbx.BAK
 工程管理/工程完了/kotei_kanryou.TBX
 kost管理/TOTAL.tbx
@@ -53,8 +52,6 @@ kost管理/KOSTO_TBL/新しいフォルダー/新yen.TBX
 作業伝票/本社-伝票/伝票新聞.tbx
 作業伝票/本社-伝票/伝票複写.tbx
 作業伝票/本社-伝票/伝票枚葉.tbx
-作業伝票/Smasta.tbx
-submaster.tbx
 工程管理/工程完了/完了tbx v2/作業完了Base - コピー.tbx
 作業伝票/支店-伝票/支店-伝票冊子.tbx
 作業伝票/支店-伝票/支店-伝票新聞.tbx
