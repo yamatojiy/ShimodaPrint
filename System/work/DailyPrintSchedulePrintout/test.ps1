@@ -1,45 +1,29 @@
-#DPSPrintout.ps1
-
-# スクリプトのディレクトリを取得
-$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-
-# OpsHub.cmx のパスを組み立てる
-$OpsHubPath = Join-Path -Path $scriptDirectory -ChildPath "DailyPrintSchedulePrintout.cmx"
-
-# OpsHub.cmx を実行する
-Start-Process -FilePath $OpsHubPath
-
-# close_kiri.ps1
-Start-Sleep -Seconds 500
-Stop-Process -Name "KIRI10" -Force
-
-#---------------------------------------------------
 # PowerShellスクリプト - 複数のPDFファイルを指定の設定で印刷
-#---------------------------------------------------
+
 # 日付の設定
 $today = Get-Date -Format "yyyy-MM-dd"
 
 # 共通設定
 $printerName = "OKI C811(PCL)"
-$logDirectory = "X:\system\work\DailyPrintSchedulePrintout\PDF\log"
+$logDirectory = "F:\【Git】ShimodaPrint\System\work\DailyPrintSchedulePrintout\PDF\log"
 $sumatraPath = "C:\Users\mng-1\AppData\Local\SumatraPDF\SumatraPDF.exe"
 
 # 印刷タスクの定義
 $printJobs = @(
     @{
-        Directory = "X:\system\work\DailyPrintSchedulePrintout\PDF\PrintSchedule"
+        Directory = "F:\【Git】ShimodaPrint\System\work\DailyPrintSchedulePrintout\PDF\PrintSchedule"
         FileFormat = "_PrintSchedule.pdf"
         PaperSize = "a3"
         Copies = 2  # 前回からの設定
     },
     @{
-        Directory = "X:\system\work\DailyPrintSchedulePrintout\PDF\MainSchedule"
+        Directory = "F:\【Git】ShimodaPrint\System\work\DailyPrintSchedulePrintout\PDF\MainSchedule"
         FileFormat = "_MainSchedule.pdf"
         PaperSize = "a4"  # A4縦
         Copies = 1
     },
     @{
-        Directory = "X:\system\work\DailyPrintSchedulePrintout\PDF\PshortSchedule"
+        Directory = "F:\【Git】ShimodaPrint\System\work\DailyPrintSchedulePrintout\PDF\PshortSchedule"
         FileFormat = "_PrintSchedule.pdf"
         PaperSize = "a4"  # A4縦
         Copies = 1

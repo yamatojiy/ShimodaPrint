@@ -147,7 +147,7 @@
     /*▼プリントアウトRPX */
     var 文字列{ &PrintRpx = &DataPath + "..\..\..\工程管理\K-各印刷予定確認\tbx\印刷一覧.rpx" }
     var 文字列{ &Printfolder = &DataPath + "PDF\printSchedule\" }
-    var 文字列{ &PrintName = #日時文字列 ( #日時値 , 11 , 1 , 2 ) + "_PrintSchedule "}
+    var 文字列{ &PrintName = #日時文字列 ( #日時値 , 11 , 1 , 2 ) + "_PrintSchedule.pdf"}
     var 文字列{ &PrintAddress = &Printfolder + &PrintName }
 
 
@@ -395,7 +395,7 @@
     手続き実行　Lib次営業日検出（ #日時値 ,　&NBD　,　&holidayListTbx　）
     手続き実行　Lib次営業日検出（ &NBD ,　&NBD2　, &holidayListTbx　）
     手続き実行　Lib次営業日検出（ &NBD2 ,　&NBD3　,　&holidayListTbx　）
-    手続き実行　Lib次営業日検出（ &NBD3 ,　&NBD4　,　&holidayListTbx　）
+    *■*手続き実行　Lib次営業日検出（ &NBD3 ,　&NBD4　,　&holidayListTbx　）
 
     *■***********************************************************
     *■***　切り分けが完了したのでPDFを作成します
@@ -410,7 +410,7 @@
     手続き実行 プリントナンバー仕込み( &印刷機[3] )
     手続き実行 プリントナンバー仕込み( &印刷機[4] )
 
-        絞り込み [印刷予定] { [] < &NBD4 } , 終了状態 = &CHK
+        絞り込み [印刷予定] { [] < &NBD3 } , 終了状態 = &CHK
         並べ替え  { [【印刷機Sort】]　昇順 , [印刷予定] 昇順 , [裏№] 昇順 }
 
     /*▼PDF作成 */
