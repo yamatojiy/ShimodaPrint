@@ -83,7 +83,6 @@ $printJobs = @(
     }
 )
 
-
 # スクリプトの開始ログを生成
 Start-Transcript -Path "$logDirectory\$today-log.txt"
 
