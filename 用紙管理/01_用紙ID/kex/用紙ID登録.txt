@@ -207,7 +207,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
     手続き実行 テーブルID調査 ( &用紙サイズtbx , "共有参照" , &表num )
     編集表　&表num
 
-        検索 [No.] { &サイズn } , 終了状態 = &CHK         
+        検索 [名称ID] { &サイズn } , 終了状態 = &CHK         
 
         if ( &CHK = 1 )
         
