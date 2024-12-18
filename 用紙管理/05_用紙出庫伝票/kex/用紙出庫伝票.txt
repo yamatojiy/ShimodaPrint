@@ -361,7 +361,6 @@ var 文字列  { &G備考 }
     条件 ( &G作業日　= "" ) &OKboot = 2　&msgtxt = "作業日が未記入です！"
     条件 ( &G迄時間　= "" ) &OKboot = 2　&msgtxt = "作業時間が未記入です！"
     条件 ( &G機械名　= "" ) &OKboot = 2　&msgtxt = "機械名が未記入です！"
-    条件 ( &G断裁サイズ作業ID　= "" ) &OKboot = 3　&msgtxt = "断裁サイズIDが未記入です！"
     条件 ( &G断裁枚数合計　= 0 ) &OKboot = 3　&msgtxt = "用紙枚数の合計が未記入です！"
 
     if ( &OKboot > 0 )
