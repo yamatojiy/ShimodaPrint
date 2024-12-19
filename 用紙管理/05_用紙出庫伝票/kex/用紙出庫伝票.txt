@@ -79,6 +79,7 @@ var 数値  { &G備考画像 }
     /*▼用紙サイズ */
     var 文字列{ &GS用紙サイズmodal = &DPath + "..\..\System\modal\General\004_用紙_04_01_用紙サイズリスト_1_(基本).wfx" }
     var 文字列{ &GS用紙縦横サイズmodal = &DPath + "..\..\System\modal\General\004_用紙_04_01_用紙サイズリスト_3_(縦横).wfx" }
+    var 文字列{ &GS用紙全紙サイズmodal = &DPath + "..\..\System\modal\General\004_用紙_04_01_用紙サイズリスト_4_(全紙).wfx" }
 
 
     /*▼用紙サイズ */
