@@ -8,3 +8,7 @@ $OpsHubPath = Join-Path -Path $scriptDirectory -ChildPath "DailyOpsHub.cmx"
 
 # OpsHub.cmx を実行する
 Start-Process -FilePath $OpsHubPath
+
+# close_kiri.ps1
+Start-Sleep -Seconds 1800
+Stop-Process -Name "KIRI10" -Force
