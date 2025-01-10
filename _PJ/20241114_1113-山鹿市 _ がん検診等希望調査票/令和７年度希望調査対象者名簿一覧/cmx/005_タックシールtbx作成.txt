@@ -16,21 +16,21 @@ var 数値  { &CHKopen , &CHKbxNum }
 
 
 var 数値  { &区分ID = 0 , &PDFNum , &r = 1 ,&r2 = 1 , &max ,&Pmax , &CHK }
-var 数値  { &box , &pack , &TACcount }
+var 数値  { &box , &pack , &TACcount , &outCount }
 var 数値  { &sID , &eID }
 var 文字列{ &Snumcode , &Sname , &Enumcode , &Ename , &↓ = "↓" }
 
 var 文字列{ &OBJct = "&区分ID  , &↓ , &box , &↓ ," }
 var 文字列{ &out1 = "&Snumcode , &↓ ," }
-var 文字列{ &out2 = "&Enumcode , &↓ , &Port , &↓ , &TACcount" }
+var 文字列{ &out2 = "&Enumcode , &↓ , &Port , &↓ , &TACcount , &↓ , &outCount " }
 var 文字列{ &txtmaster }
 
 var 文字列{ &Port = "" }
 var 文字列{ &郵便局[4] = {""} }
     &郵便局[1] = "鹿本郵便局分　〒861-03"
-    &郵便局[2] = "鹿北郵便局分　〒861-04"
+    &郵便局[2] = "菊鹿郵便局分　〒861-04"
     &郵便局[3] = "山鹿郵便局分　〒861-05"
-    &郵便局[4] = "鹿本郵便局分　〒861-06"
+    &郵便局[4] = "鹿北郵便局分　〒861-06"
 
 *■*----------------------------------------------------------
 *■*-----
