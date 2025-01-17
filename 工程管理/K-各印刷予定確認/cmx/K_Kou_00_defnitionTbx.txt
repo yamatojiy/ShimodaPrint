@@ -88,18 +88,24 @@
     var 文字列{ &専有 =　"専有" }
     var 文字列{ &共有更新 = "共有更新" }
 
+/*▼表用変数 */
+    var 数値  { &PrintscF }
+    var 数値  { &未定義F , &用紙F , &工程管理F , &作業用F }
+    var 数値  { &書き出し表F }
+
+
 *■*-------------------------------------
 *■*-- ライブラリ情報
 *■*-------------------------------------
 
     var 文字列{ &DataPath = #一括パス名 + "..\..\..\system\work\DailyPrintSchedulePrintout\" }
 
-    var 文字列{ &Lib印刷時間設定cmx = &DataPath +"..\..\..\system\Lib\Lib_印刷時間設定.cmx" }
     var 文字列{ &Lib次営業日cmx = &DataPath +"..\..\..\system\Lib\Lib_次営業日検出.cmx" }
     var 文字列{ &印刷スペックtbx = &DataPath + "..\..\..\system\tbx\07_04_印刷機スペック.tbx" }
     var 文字列{ &印刷色設定tbx = &DataPath + "..\..\..\system\tbx\07_03_印刷用色設定.tbx" }
     var 文字列{ &holidayListTbx = &DataPath + "..\..\..\system\tbx\01_01_HolidayList.tbx" }
     var 時間　{ &TimeT }
+    var 文字列{ &Libライブラリ桐処理 = &DataPath +"..\..\..\system\Lib\Lib_ライブラリ桐処理.cmx" }
 
 *■*-------------------------------------
 *■*-- 各ファイルアドレス
@@ -154,7 +160,7 @@
     var 文字列{ &mainCmx = &DataPath + "DailyMainSchedule.cmx" }
     var 文字列{ &LibDailyPrintSchedulePrintout　= &DataPath + "DailyPrintSchedulePrintout.cmx" }
 
-    ライブラリ　&Lib印刷時間設定cmx
+    ライブラリ　&Libライブラリ桐処理
     ライブラリ &Lib次営業日cmx
     ライブラリ &LibDailyPrintSchedulePrintout
 
