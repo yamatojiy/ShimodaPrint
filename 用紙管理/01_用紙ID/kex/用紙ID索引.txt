@@ -7,7 +7,7 @@
 /*▼汎用 */
 var 数値  { &CHK ,　&CHK2　,　&CHK3 }
 var 文字列{ &msgtxt }
-var 文字列{ &タイトル , &表示本文 }
+var 文字列{ &タイトル , &表示本文 , &mode = "共有更新" }
 
 /*▼戻り用変数 */
 var 数値  { &Num = "" }
@@ -165,7 +165,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
     *■*-- 菊半などの用紙名称を取得する
     *■*-------------------------------------
     var 数値  { &表num　= 0 }
-    手続き実行 テーブルID調査 ( &用紙サイズtbx , "共有参照" , &表num )
+    手続き実行 テーブルID調査 ( &用紙サイズtbx , &mode , &表num )
 
     編集表　&表num
 
@@ -222,7 +222,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
     if ( &用紙ID )
 
         利用者コード "ADDIDP"
-        手続き実行 テーブルID調査 ( &用紙IDTbx , "専有" , &表num )
+        手続き実行 テーブルID調査 ( &用紙IDTbx , &mode , &表num )
         編集表　&表num
 
             検索 [ID] { &用紙ID } , 終了状態　= &廃番CHKi
@@ -244,7 +244,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
 
     var 数値  { &表num　= 0 }
 
-    手続き実行 テーブルID調査 ( &用紙IDTbx , "共有参照" , &表num )
+    手続き実行 テーブルID調査 ( &用紙IDTbx , &mode , &表num )
     編集表　&表num
 
         並べ替え  { [銘柄] 昇順 }
@@ -267,7 +267,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
 
     var 数値  { &表num　= 0 }
 
-    手続き実行 テーブルID調査 ( &用紙IDTbx , "共有参照" , &表num )
+    手続き実行 テーブルID調査 ( &用紙IDTbx , &mode , &表num )
     編集表　&表num
 
         検索 [ID] { &用紙ID } , 終了状態 = &CHK 
@@ -292,7 +292,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
 
     利用者コード "ADDIDP"
     
-    手続き実行 テーブルID調査 ( &用紙IDTbx , "専有" , &表num )
+    手続き実行 テーブルID調査 ( &用紙IDTbx , &mode , &表num )
     編集表　&表num
 
         /*▼用紙IDがきちんと入っているか確認 */
@@ -323,7 +323,7 @@ var 文字列{ &重さ選択modal    = &用紙ID検索wfxPath        + "\modal\�
 
     var 数値  { &表ID }
     var 数値  { &OPnum = 0  , &openF = 0 }
-    var 文字列 { &mode = "共有更新" , &pass = "ADDIDP" }
+    var 文字列 { &pass = "ADDIDP" }
 
     手続き実行 表オープン（　&用紙IDTbx　, &mode , &OPnum , &openF ）
     編集表 &OPnum
