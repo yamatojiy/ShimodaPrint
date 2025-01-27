@@ -21,6 +21,7 @@ var 数値  { &sizeCHK　, &inputBoot }
     &inputBoot = #変数( 登録boot )
 
     &toguru = 1
+    絞り込み [廃番] { #未定義 } 
     並べ替え  { [銘柄] 昇順 }
     絞り込み [銘柄] { &strCHK } , 終了状態 = &CHKi
     絞り込み [紙色] { &substrCHK } , 終了状態 = &CHKi
@@ -32,6 +33,7 @@ var 数値  { &sizeCHK　, &inputBoot }
     if ( #総件数 = 0 )
 
         解除 *    
+        絞り込み [廃番] { #未定義 } 
         絞り込み 単一化 = { [重さ] } 
         並べ替え  { [重さ] 昇順 }
         &toguru = 0
@@ -43,6 +45,7 @@ var 数値  { &sizeCHK　, &inputBoot }
     if ( &inputBoot )
 
         解除 *    
+        絞り込み [廃番] { #未定義 } 
         絞り込み 単一化 = { [重さ] } 
         並べ替え  { [重さ] 昇順 }
 
@@ -77,6 +80,7 @@ var 数値  { &sizeCHK　, &inputBoot }
     if ( &toguru )
 
         解除 
+        絞り込み [廃番] { #未定義 } 
         並べ替え  { [銘柄] 昇順 }
         絞り込み [銘柄] { &strCHK } , 終了状態 = &CHKi
         絞り込み [紙色] { &substrCHK } , 終了状態 = &CHKi
@@ -88,12 +92,14 @@ var 数値  { &sizeCHK　, &inputBoot }
         if ( #総件数 = 0 )
 
             解除 *    
+            絞り込み [廃番] { #未定義 } 
             絞り込み 単一化 = { [重さ] } 
             並べ替え  { [重さ] 昇順 }
         end
     else
 
         解除 *    
+        絞り込み [廃番] { #未定義 } 
         絞り込み 単一化 = { [重さ] } 
         並べ替え  { [重さ] 昇順 }
 
