@@ -8,6 +8,8 @@
 var 数値  { &CHK ,　&CHK2　,　&CHK3 }
 var 文字列{ &msgtxt }
 var 文字列{ &タイトル , &表示本文 , &mode = "共有更新" }
+var 文字列{ &Str }
+var 数値  { &Num }
 
 /*▼戻り用変数 */
 var 数値  { &Num = "" }

@@ -1,0 +1,55 @@
+var 文字列  { &Lib = #データパス名 + "..\System\Lib\Lib_ライブラリ桐処理.cmx" }
+ライブラリ &Lib
+
+名札 MAIN
+
+    var 数値  { &CHK , &nowTbx = #IS表 , &den }
+    var 文字列{ &subTbx = #データパス名 +"..\submaster.tbx" }
+    var 文字列{ &joukenName = "品名得意先無し" }
+
+    var 数値  { &OPnum = 0  , &openF = 0 }
+    var 文字列 { &mode = ”共有更新”  , &hin , &toku }
+
+    手続き実行 表オープン（ &subTbx , &mode , &OPnum , &openF ）
+
+    編集表 &nowTbx
+
+    検索条件登録 条件名 = &joukenName ,\
+    {[品名]　#未定義　} , {[得意先]　#未定義　}
+
+    絞り込み　条件名 = &joukenName
+    絞り込み [伝票ＮＯ] { <>"" } , 終了状態 = &CHK
+
+    繰り返し（ .NOT #終端行 ）
+
+        &den = [伝票ＮＯ]
+        
+        編集表 &OPnum
+
+            検索 [伝票ＮＯ] { &den } , 終了状態 = &CHK 
+            if (&CHK = 1 )
+            
+                &hin = [品名]
+                &toku = [得意先]
+
+                編集表 &nowTbx
+
+                行訂正 終了状態 = &CHK , [品名] = &hin , [得意先] = &toku 
+
+            end
+
+            /*▼初期化 */
+            &den = "" &hin = "" &toku = ""
+            編集表 &nowTbx
+
+        ジャンプ 行番号 = 次行
+    繰り返し終了
+
+    解除
+
+    var 文字列{ &msgtxt = "Done" }
+    確認 &msgtxt
+
+    条件 ( &openF = 0 ) 終了 表 &OPnum
+
+終了
