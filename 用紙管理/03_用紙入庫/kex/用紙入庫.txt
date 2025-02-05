@@ -73,6 +73,9 @@
 
     /*▼用紙登録 */
     var 文字列{ &SN用紙登録変更form = &用紙入庫DPath +  "..\01_用紙ID\用紙ID登録変更フォーム.wfx"  }
+    var 文字列{ &NextFrom =  &SN用紙登録変更form }
+    var 文字列{ &EntryPassCodeFrom = &用紙入庫DPath + "..\01_用紙ID\利用者コード\EntryPasscode.wfx"  }
+    var 文字列{ &passWord = "ADDIDP" }
 
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　外部参照

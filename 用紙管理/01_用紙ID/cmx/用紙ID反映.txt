@@ -27,7 +27,7 @@ var 文字列{ &TaskPath[&Task] ={""} }
 &TaskPath[1] = &Datapath +"..\..\03_用紙入庫\用紙入庫.tbx"
 &TaskPath[2] = &Datapath +"..\..\04_資材断裁\資材断裁.tbx"
 &TaskPath[3] = &Datapath +"..\..\06_在庫登録\在庫登録.tbx"
-var 数値  { &OPnum[&Task] ={""} , &openF[&Task] ={""} }
+var 数値  { &OPnumIDc[&Task] ={""} , &openFIDc[&Task] ={""} }
 
 /*▼代入コマンド */
 var 文字列{ &InputCMD[&Task] ={""} }
@@ -69,8 +69,8 @@ var 文字列  { &Lib = &Datapath  + "..\..\..\System\Lib\Lib_ライブラリ桐
         *■*:　該当ファイルを開いて
         *■*--　用紙情報を変数に格納
 
-        手続き実行 表オープン（ &TaskPath[&r] , &mode , &OPnum[&r] , &openF[&r] ）
-        編集表 &OPnum[&r]
+        手続き実行 表オープン（ &TaskPath[&r] , &mode , &OPnumIDc[&r] , &openFIDc[&r] ）
+        編集表 &OPnumIDc[&r]
 
             繰り返し（ .NOT #終端行 ）
                 &ID = [用紙ID]
@@ -95,7 +95,7 @@ var 文字列  { &Lib = &Datapath  + "..\..\..\System\Lib\Lib_ライブラリ桐
                 *■*-------------------------------------
                 *■*--　戻って格納する
                 *■*-------------------------------------
-                編集表 &OPnum[&r]
+                編集表 &OPnumIDc[&r]
 
                     コマンド　&InputCMD[&r]
 
@@ -107,7 +107,7 @@ var 文字列  { &Lib = &Datapath  + "..\..\..\System\Lib\Lib_ライブラリ桐
                 ジャンプ 行番号 = 次行 
             繰り返し終了 
 
-        条件 ( &openF[&r] = 0 ) 終了 表 &OPnum[&r] 
+        条件 ( &openFIDc[&r] = 0 ) 終了 表 &OPnumIDc[&r] 
         &r = &r + 1 
     繰り返し終了
 
