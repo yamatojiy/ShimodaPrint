@@ -20,7 +20,7 @@ var 文字列{ &strCHK , &substrCHK }
 
     if (　&strCHK )
         &toguru = 1
-        絞り込み [廃番] { #未定義 } 
+        
         並べ替え  { [銘柄（全）] 昇順 }
         絞り込み [銘柄（全）] { &strCHK } , 終了状態 = &CHKi
         絞り込み [紙色（全）] { &substrCHK } , 終了状態 = &CHKi
@@ -64,7 +64,7 @@ var 文字列{ &strCHK , &substrCHK }
     if ( &toguru )
 
         解除
-        絞り込み [廃番] { #未定義 } 
+        
         並べ替え  { [銘柄（全）] 昇順 }
         絞り込み [銘柄（全）] { &strCHK } , 終了状態 = &CHKi
         絞り込み [紙色（全）] { &substrCHK } , 終了状態 = &CHKi
@@ -74,7 +74,7 @@ var 文字列{ &strCHK , &substrCHK }
     else
 
         解除
-        絞り込み [廃番] { #未定義 } 
+        
         絞り込み 単一化 = { [サイズ（半）] } 
         並べ替え  { [サイズ] 昇順 } 
     
