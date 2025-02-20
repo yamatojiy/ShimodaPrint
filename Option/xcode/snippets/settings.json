@@ -1,0 +1,41 @@
+{
+    "workbench.colorTheme": "Default High Contrast",
+    "editor.guides.bracketPairs": true,
+    "highlight.decorations": {"rangeBehavior":100 },
+    "highlight.regexFlags": "gi",
+    "highlight.regexes": {
+      //記号についての構文カラー
+      //半角スペースも検知してしまうので、書式の調整には注意する事
+      "('\\S+)" : [ { "color": "#41e847" }],
+      "(/*▼\\S+|/*←\\S+)" : [ { "color": "#41e847" } ],
+      "(■\\S+)(.*)" : [ { "color": "#41e847" }, { "color": "#41e847" }],
+      "(&\\S+)" : [ { "color": "#99b6f0" } ],
+      "(#\\S+)" : [ { "color": "#3CADB3" } ], 
+      "(@\\S+)" : [ { "color": "#F49D00" } ],       
+      "(、￥|,|=)" : [ {"color": "#FFCC00" }, ],
+      //桐専用変数について定義します。
+      "(長整数|整数|数値|文字列|日時|通貨)": [
+        { "color": "#F49D5A" } ],
+      "(終了|var|手続き定義開始|手続き定義終了|名札|手続き実行|手続き終了|＊|確認)": [
+        { "color": "#EE05F2" } ],
+      "(共有参照|会話|参照|フォーム形式編集|使用フォーム|制御文字展開|自動|局所|区切り|項目名|ファイル|カラー印刷|プレビュー|圧縮|補集合|単一化|昇順|降順|辞書逆順|モード|終了状態|↑|条件名|編集対象表|テキスト|CSV|アイコン|ボタン指定|次行)": [
+        { "color": "#72CCB8" } ],
+      "(str|case|switch|default|case|Switch|if|end|else)": [
+        { "color": "#B3413C" } ],
+      "(ケース)": [
+        { "color": "#F49D5A" } ],
+      "(表番号|エラー処理|項目集計|一括処理実行|メニュー２|ケース開始|表示条件開始|分岐|メッセージボックス|変数宣言|行訂正|一覧表印刷|ファイル複写| 置換|レポート印刷|検索|メソッド呼び出し|行追加|行挿入|条件|行削除|書き出し|msgbox|結合|読み込み|ジャンプ|繰り返し|行番号|並べ替え|中止|書出し|編集表|解除|項目値代入|絞り込み|グループ選択|グループ検索|表|印字開始|終端行|印字|利用者コード)": [
+        { "color": "#F49D5A" }],
+
+    },
+    "highlight.maxMatches": 8000,
+    "editor.unicodeHighlight.allowedCharacters": {
+      "＊": true
+    },
+    "indentRainbow.includedLanguages": [],
+    "editor.bracketPairColorization.enabled": true,
+    "editor.autoClosingBrackets": "always",
+    "editor.fontFamily": "Consolas, 'Meiryo UI', monospace",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.unicodeHighlight.nonBasicASCII": false
+ }
