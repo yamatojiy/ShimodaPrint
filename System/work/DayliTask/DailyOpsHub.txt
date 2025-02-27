@@ -10,9 +10,10 @@
     var 数値  { &CHK , &CHK2 , &CHK3 }
     var 文字列{ &datapath = #データパス名 }
     var 文字列{ &msgtxt = ""　, &erMsg = "" }
+    var 数値  { &debug = 0 }
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　表整理タスクtbx
-    var 数値  { &TaskNum = 22 }
+    var 数値  { &TaskNum = 23 }
 
     var 文字列{ &tbxFileName[&TaskNum] ={""} }
         &tbxFileName[1] = "Smasta.tbx"
@@ -37,6 +38,7 @@
         &tbxFileName[20] = "新入庫情報管理.tbx"
         &tbxFileName[21] = "新用紙管理.tbx"
         &tbxFileName[22] = "外注一覧.tbx"
+        &tbxFileName[23] = "01用紙台帳.tbx"
 
     var 文字列{ &tbxAddress[&TaskNum] = {} }
         &tbxAddress[1] = #データパス名 + "..\..\..\作業伝票\"                           /*←Smasta */
@@ -61,6 +63,7 @@
         &tbxAddress[20] = #データパス名 + "..\..\..\用紙管理\system\tbx\"      /*←入庫情報管理 */
         &tbxAddress[21] = #データパス名 + "..\..\..\用紙管理\system\tbx\"      /*←新用紙管理 */
         &tbxAddress[22] = #データパス名 + "..\..\..\外注管理\"               /*←外注管理*/
+        &tbxAddress[23] = #データパス名 + "..\..\..\用紙管理\02_用紙台帳\tbx\"        /*←用紙台帳*/
 
     var 文字列{ &tbxPass[&TaskNum] = {} }
         &tbxPass[1] = "fumio"
@@ -85,6 +88,7 @@
         &tbxPass[20] = "addidp"
         &tbxPass[21] = "addidp"
         &tbxPass[22] = "okuda06"
+        &tbxPass[23] = ""
         
     var 数値  { &tbxOpenChk[&TaskNum] = {0} }
 
@@ -171,6 +175,9 @@
         印字　"--------------------------------"
         印字　"■　表整理処理"
         印字　"--------------------------------"
+        
+        条件 ( &debug = 1 )  &r = 20 /*▼test */
+        
         繰り返し（ &r < &max　 ）
 
             手続き実行 表整理TASK( &tbxAddress[&r] , &tbxFileName[&r] , &tbxPass[&r] , &tbxOpenChk[&r] ) 
@@ -293,7 +300,10 @@
     &openFilePath = &address + &filename
     
     手続き実行 RSCチェック　( &openFilePath , &openFlag )
+    手続き実行 ファイルチェック ( &openFilePath , &openFlag )
 
+    &msgtxt = &openFilePath
+    条件 ( &debug = 1 ) 確認 &msgtxt 
     /*▼未定義なら開いていないという事のはずである。 */
     if ( &openFlag = 0 )
 
@@ -332,6 +342,22 @@
     else
         &openCHK =  1
     end
+
+手続き定義終了
+*■***********************************************************
+*■***　ファイルが存在していなければ 1 あれば 0を返す｡
+*■***********************************************************
+手続き定義開始 ファイルチェック（　文字列 &filepath ,　参照　数値 &openCHK ）
+
+    var 文字列{ &chkAns }
+    &chkAns = #ファイル検索( &filepath , 1 )
+
+    if ( &chkAns <> #未定義 ) /*▼ファイルがあれば存在しているので処理できます｡ */
+        &openCHK =  0
+    else
+        &openCHK =  1
+    end
+
 
 手続き定義終了
 *■*----------------------------------------------------------
