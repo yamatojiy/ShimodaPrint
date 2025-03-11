@@ -13,7 +13,7 @@
     var 数値  { &debug = 0 }
     *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     *■*:　表整理タスクtbx
-    var 数値  { &TaskNum = 23 }
+    var 数値  { &TaskNum = 25 }
 
     var 文字列{ &tbxFileName[&TaskNum] ={""} }
         &tbxFileName[1] = "Smasta.tbx"
@@ -39,6 +39,8 @@
         &tbxFileName[21] = "新用紙管理.tbx"
         &tbxFileName[22] = "外注一覧.tbx"
         &tbxFileName[23] = "01用紙台帳.tbx"
+        &tbxFileName[24] = "用紙入庫.tbx"
+        &tbxFileName[25] = "資材断裁.tbx"
 
     var 文字列{ &tbxAddress[&TaskNum] = {} }
         &tbxAddress[1] = #データパス名 + "..\..\..\作業伝票\"                           /*←Smasta */
@@ -64,6 +66,8 @@
         &tbxAddress[21] = #データパス名 + "..\..\..\用紙管理\system\tbx\"      /*←新用紙管理 */
         &tbxAddress[22] = #データパス名 + "..\..\..\外注管理\"               /*←外注管理*/
         &tbxAddress[23] = #データパス名 + "..\..\..\用紙管理\02_用紙台帳\tbx\"        /*←用紙台帳*/
+        &tbxAddress[24] = #データパス名 + "..\..\..\用紙管理\03_用紙入庫\"        /*←用紙台帳*/
+        &tbxAddress[25] = #データパス名 + "..\..\..\用紙管理\04_資材断裁\"        /*←用紙台帳*/
 
     var 文字列{ &tbxPass[&TaskNum] = {} }
         &tbxPass[1] = "fumio"
@@ -89,6 +93,8 @@
         &tbxPass[21] = "addidp"
         &tbxPass[22] = "okuda06"
         &tbxPass[23] = ""
+        &tbxPass[24] = ""
+        &tbxPass[25] = ""
         
     var 数値  { &tbxOpenChk[&TaskNum] = {0} }
 
