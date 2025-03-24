@@ -4,15 +4,13 @@
 *■***********************************************************
 
 /*▼ファイル */
-var 文字列{ &datapath = #データパス名 + "..\02_本番データ\" }
-var 文字列{ &ALLtbx = &datapath + "令和７年度希望調査対象者名簿一覧.tbx" }
+var 文字列{ &datapath = #一括パス名 }
+var 文字列{ &ALLtbx = &datapath +"..\..\【本番】PrintList.tbx" }
 var 数値  { &Allopen , &ALLtbxNum }
 
-var 文字列{ &CHKpath = &datapath + "チェックリスト\" }
-var 文字列{ &outReportTxt = &CHKpath + "InputCHKlist.txt" }
-var 文字列{ &CHKtbx = &CHKpath + "封入用CHKリスト.tbx" }
+var 文字列{ &outReportTxt = &datapath + "InputCHKlist.txt" }
+var 文字列{ &CHKtbx = &datapath + "..\封入用CHKリスト.tbx" }
 var 数値  { &CHKopen , &CHKbxNum }
-
 
 var 数値  { &区分ID = 0 , &PDFNum , &r = 1 ,&r2 = 1 , &max ,&Pmax , &CHK }
 var 数値  { &box , &pack }
@@ -41,57 +39,57 @@ var 文字列{ &郵便局[4] = {""} }
     手続き実行 表オープン（ &ALLtbx , "専有" , &ALLtbxNum , &Allopen ）
     編集表　&ALLtbxNum
 
-    項目集計 [box]
+    項目集計 [BoxID]
     &max = &最大値　＋ 1
 
     印字開始 &outReportTxt , 終了状態 = &CHK
 
         繰り返し（ &r < &max ）
 
-            絞り込み [box] { &r } , 終了状態 = &CHK
+            絞り込み [BoxID] { &r } , 終了状態 = &CHK
 
-                項目集計 [pack]
+                項目集計 [PackID]
                 &Pmax = &最大値　＋ 1
                 
                 繰り返し（ &r2 < &Pmax ）
 
-                    絞り込み [pack] { &r2 } , 終了状態 = &CHK
+                    絞り込み [PackID] { &r2 } , 終了状態 = &CHK
 
 
                         *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                         *■*:　ここからデータ集計
                         ジャンプ 行番号 = 1
                     
-                        手続き実行 文字列の頭４つ以降をコメにする（ &Sname , [氏名] ）
-                        &Snumcode = [numcode]
-                        &区分ID = [区分ID]
-                        &box = [box]
-                        &pack = [pack]
-                        &sID = [No.]
+                        手続き実行 文字列の頭４つ以降をコメにする（ &Sname , [通知番号] ）
+                        &Snumcode = [管理コード]
+                        &区分ID = 1
+                        &box = [BoxID]
+                        &pack = [PackID]
+                        &sID = [SetID]
 
 
                         ジャンプ 行番号 = 最終
-                        手続き実行 文字列の頭４つ以降をコメにする（ &Ename , [氏名] ）
-                        &Enumcode = [numcode]
-                        &eID = [No.]
+                        手続き実行 文字列の頭４つ以降をコメにする（ &Ename , [通知番号] ）
+                        &Enumcode = [管理コード]
+                        &eID = [SetID]
 
-                        ケース開始
-                            ケース（ &区分ID = 1 ）
-                                &Port = &郵便局[1]
-                            
-                            ケース（ &区分ID = 2 ）
-                                &Port = &郵便局[2]
-                        
-                            ケース（ &区分ID = 3 ）
-                                &Port = &郵便局[3]
-
-                            ケース（ &区分ID = 4 ）
-                                &Port = &郵便局[4]
-                            
-                            ケース　その他
-                                &Port = "error"
-
-                        ケース終了
+*■*                ケース開始
+*■*                    ケース（ &区分ID = 1 ）
+*■*                        &Port = &郵便局[1]
+*■*                    
+*■*                    ケース（ &区分ID = 2 ）
+*■*                        &Port = &郵便局[2]
+*■*                
+*■*                    ケース（ &区分ID = 3 ）
+*■*                        &Port = &郵便局[3]
+*■*
+*■*                    ケース（ &区分ID = 4 ）
+*■*                        &Port = &郵便局[4]
+*■*                    
+*■*                    ケース　その他
+*■*                        &Port = "error"
+*■*
+*■*                ケース終了
                         *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                         *■*:　ここから印字
                         &txtmaster = "印字 "+ &OBJct + &out1 + &out2
@@ -134,11 +132,14 @@ var 文字列{ &郵便局[4] = {""} }
 手続き定義開始 文字列の頭４つ以降をコメにする（ 参照　文字列 &rename , 文字列　&name ）
 
     var 文字列{ &加工文字列 , &加工文字列2　}
+    
+    *&加工文字列 = #文字列反転( &name )
 
-    &加工文字列 = #文字列反転( &name )
-    &加工文字列2 = #右側文字列( &加工文字列 , 5 )
-    &rename = #文字列反転( &加工文字列2 )　+"***"
+    &加工文字列 = &name
+    &加工文字列2 = #右側文字列( &加工文字列 , 6  )
 
+    &rename = &加工文字列2
+    *&rename = #文字列反転( &加工文字列2 )　+"***"
 手続き定義終了
 
 *■*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
