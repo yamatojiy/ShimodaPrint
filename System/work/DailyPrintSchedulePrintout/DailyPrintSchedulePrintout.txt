@@ -148,7 +148,6 @@
     var 文字列{ &logFileName = &logAddress + #日時文字列 (　&作業日 , 11 , 1 , 2 ) +"_log.txt"  }
 
 
-
     /*▼各スケジュール用プリントアウトRPX */
     var 文字列{ &printScheduleRpx = &DataPath +"..\..\..\工程管理\K-社内全体共有用資料\tbx\Printschedule.rpx" }
     var 文字列{ &PrintScfolder = &DataPath + "PDF\PshortSchedule\" }
