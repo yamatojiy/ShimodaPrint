@@ -23,6 +23,10 @@ var 数値  { &DTP表番号 }
 /*▼Sub_Master */
 var 文字列{ &subTbx = #一括パス名 + "submaster.tbx" }
 var 数値  { &subTbxNum }
+var 文字列{ &STbxPass ="" }
+
+/*▼カレンダー */
+var 文字列{ &カレンダー = #一括パス名 + "Calendar\INF_DatePicker.wfx" }
 
 /*▼保管場所リスト */
 var 文字列{ &SaveTbx = #一括パス名 + "保管場所.tbx" }
@@ -98,6 +102,8 @@ var 数値  { &OutputTbxNum }
             [出力]=&出力 , [組版担当]=&組版担当 , [保管場所]=&保管場所 ,\
             [備考]=&備考 , [保存期間]=&保存期間 , [一時保存]=&一時保存 , [更新日]=#日時値
 
+            ジャンプ 行番号 = -1
+
             確認 "新規伝票として【行追加】しました"
 
         end
@@ -116,6 +122,7 @@ var 数値  { &OutputTbxNum }
     var 数値 { &wasOpenSub = &subTbxNum }
 
     if ( .not &subTbxNum )
+        利用者コード &STbxPass
         表 &subTbx , モード = 共有参照 , 終了状態 = &CHK
         &subTbxNum = #表番号取得( &subTbx )
     end
